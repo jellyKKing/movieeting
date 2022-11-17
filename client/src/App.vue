@@ -1,12 +1,5 @@
 <template>
   <div id="app">
-    <KakaoLogin
-      api-key="9e3e0da3c4e60e3fff9e0174f6fca7b1"
-      image="kakao_login_btn_large"
-      :on-success=onSuccess
-      :on-failure=onFailure
-      />
-
     <div id="nav">
       <span>
         <router-link :to="{ name: 'TodoList' }">Todo List</router-link> | 
@@ -17,14 +10,11 @@
         <router-link :to="{ name: 'Logout' }">Logout</router-link> 
       </span>
     </div>
-    <router-view @login="login"/>
+    <router-view />
   </div>
 </template>
 
 <script>
-import KakaoLogin from 'vue-kakao-login'
-import axios from'axios'
-const API_URL = 'http://127.0.0.1:8000'
 
 export default {
   name: 'App',
@@ -33,33 +23,8 @@ export default {
       isLogin : localStorage.getItem('jwt') ? localStorage.getItem('jwt') : false
     }
   },
-  components:{
-    KakaoLogin
-  },
   methods: {
-    login() {
-      console.log('애미야')
-      this.isLogin = true
-      console.log(this.isLogin)
-    },
-    onSuccess (res) {
-      console.log("success")
-      axios({
-        method: 'post',
-        url: `${API_URL}/accounts/login/`,
-        data: {
-          res : res,
-        }
-      })
-        .then((res)=>{
-          // console.log(this.$cookies)
-          this.$router.push({ name: 'Test', params: {'res' : res}})
-        })
-    },
-    onFailure (data) {
-      console.log(data)
-      console.log("failure")
-    },
+    
   },
   created(){
     

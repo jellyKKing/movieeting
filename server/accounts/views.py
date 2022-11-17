@@ -28,15 +28,23 @@ def kakaoLoginView(request):
 
     print('호잇')
     # kakao_id 로 검색해보고, 
-    user = User.objects.get(id=kakao_response['id'])
-
+    user = User.objects.filter(id=kakao_response['id'])
+    print('됨')
+    print(user.values())
+    print()
     if user:
         # 있으면 로그인 진행
         print('있음 -> 로그인 진행')
-        serializer = UserSerializer(instance=user)
-        res = Response(serializer.data, status=status.HTTP_200_OK)
-        res.set_cookie('access', access_token)
-        res.set_cookie('refresh', request.data['res']['refresh_token'])
+        serializer = UserSerializer(instance=user[0])
+        data = {
+            'serializer' : serializer.data,
+            'access' : access_token
+        }
+        res = Response(data, status=status.HTTP_200_OK)
+        # print('res', res)
+        # res.set_cookie(key='jwt', value=access_token, httponly=False)
+        # res.set_cookie('access', access_token)
+        # res.set_cookie('refresh', request.data['res']['refresh_token'])
         return res
 
 
@@ -45,17 +53,40 @@ def kakaoLoginView(request):
     
     user_data = {
         'id':kakao_response['id'],
-        'password':kakao_response['id'],
         'username':kakao_response['properties']['nickname'],
         'email':kakao_response['kakao_account']['email'],
+        'password':str(kakao_response['id']),
     }
+    
     serializer = UserSerializer(data=user_data)
+
     if serializer.is_valid(raise_exception=True):
-        serializer.save()
-        result = Response(serializer.data, status=status.HTTP_201_CREATED)
-        result.set_cookie('access', access_token)
-        result.set_cookie('refresh', request.data['res']['refresh_token'])
+        print('들어옴')
+        users = serializer.save()
+        password = str(kakao_response['id'])
+        users.set_password(password)
+        users.save()
+        data = {
+            'serializer' : serializer.data,
+            'access' : access_token
+        }
+        result = Response(data, status=status.HTTP_201_CREATED)
         return result
     else:
         return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+
+@api_view(['GET'])
+def mypage(request):
+    print('마이페이지in')
+    if request.user.is_authenticated:
+        print('is_authenticated')
+        if request.method == 'GET':
+            user = User.objects.all()
+            serializer = UserSerializer(user, many=True)
+            return Response(serializer.data)
+    else:
+        print('is_authenticated x')
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
 

@@ -3,4 +3,5 @@ from . import views
 
 urlpatterns = [
     path('login/', views.kakaoLoginView),
+    path('mypage/', views.mypage),
 ]

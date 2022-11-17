@@ -1,19 +1,16 @@
 <template>
   <div>
-    <h1>로그인</h1>
-    <form @submit.prevent="userLogin">
-      <label for="inputId">아이디</label>
-      <input type="text" id="inputId" v-model="username">
-      <br>
-      <label for="inputPw1">비밀번호</label>
-      <input type="password" id="inputPw1" v-model="password">
-      <br>
-      <input type="submit" value="로그인">
-    </form>
+    <KakaoLogin
+      api-key="9e3e0da3c4e60e3fff9e0174f6fca7b1"
+      image="kakao_login_btn_large"
+      :on-success=onSuccess
+      :on-failure=onFailure
+      />
   </div>
 </template>
 
 <script>
+import KakaoLogin from 'vue-kakao-login'
 import axios from 'axios'
 const API_URL = 'http://127.0.0.1:8000'
 
@@ -25,7 +22,28 @@ export default {
       password: null,
     }
   },
+  components:{
+    KakaoLogin
+  },
   methods: {
+    onSuccess (res) {
+      console.log("success")
+      axios({
+        method: 'post',
+        url: `${API_URL}/accounts/login/`,
+        data: {
+          res : res,
+        }
+      })
+        .then((response)=>{
+          console.log("success2")
+          this.$router.push({ name: 'Test', params: {'res' : response}})
+        })
+    },
+    onFailure (data) {
+      console.log(data)
+      console.log("failure")
+    },
     userLogin: function () {
       axios({
         method: 'post',
