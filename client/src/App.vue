@@ -51,7 +51,8 @@ export default {
           res : res,
         }
       })
-        .then(()=>{
+        .then((res)=>{
+          console.log(res)
           this.$router.push({ name: 'Test' })
         })
     },

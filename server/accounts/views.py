@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from django.http import JsonResponse  
 from .serializers import UserSerializer
 from .models import User
+import jwt
 import json
 import requests
 from django.shortcuts import get_object_or_404
@@ -12,6 +13,7 @@ from django.shortcuts import get_object_or_404
 @api_view(['POST'])
 def kakaoLoginView(request):
     print('겟')
+    print()
     print()
     access_token = request.data['res']['access_token']
     url = 'https://kapi.kakao.com/v2/user/me'    
@@ -26,12 +28,16 @@ def kakaoLoginView(request):
 
     print('호잇')
     # kakao_id 로 검색해보고, 
-    user = User.objects.get(id=kakao_response['id'])
+    user = User.objects.filter(id=kakao_response['id'])
 
     if user:
         # 있으면 로그인 진행
         print('있음 -> 로그인 진행')
-        # jwt_token = jwt.encode()
+        serializer = UserSerializer(instance=user)
+        res = Response(serializer.data, status=status.HTTP_200_OK)
+        res.set_cookie('access', access_token)
+        res.set_cookie('refresh', request.data['res']['refresh_token'])
+        return res
 
 
     # 없으면 회원가입 진행
@@ -39,8 +45,9 @@ def kakaoLoginView(request):
     
     user_data = {
         'id':kakao_response['id'],
+        'password':kakao_response['id'],
         'username':kakao_response['properties']['nickname'],
-        'email':kakao_response['email'],
+        'email':kakao_response['kakao_account']['email'],
     }
     serializer = UserSerializer(data=user_data)
     if serializer.is_valid(raise_exception=True):
@@ -49,9 +56,3 @@ def kakaoLoginView(request):
     else:
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
-    # user = User.objects.all()
-    # serializer = UserSerializer(user)
-    # 없으면 회원가입 진행 -> 회원가입: username, password, date_joined, last_login, kakao_id, email, nickname, 
-
-    
-    return Response(status=status.HTTP_400_BAD_REQUEST)
