@@ -32,7 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     # local apps
-    'todos',
+    'movies',
     'accounts',
 
     # drf
