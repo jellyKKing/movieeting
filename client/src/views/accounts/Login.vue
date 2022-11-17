@@ -36,15 +36,15 @@ export default {
         }
       })
         .then((response)=>{
-          console.log("success2")
-          this.$router.push({ name: 'Test', params: {'res' : response}})
+          this.loginToken(response)
+          // this.$router.push({ name: 'Test', params: {'res' : response}})
         })
     },
     onFailure (data) {
       console.log(data)
       console.log("failure")
     },
-    userLogin: function () {
+    loginToken: function (res) {
       axios({
         method: 'post',
         headers: {
@@ -52,16 +52,15 @@ export default {
         },
         url: `${API_URL}/api/token/`,
         data: {
-          username: this.username,
-          password: this.password,
+          username: res.data.serializer.username,
+          password: res.data.serializer.id,
         }
       })
         .then((res) => {
-          console.log(res)
+          console.log('쿠키끗')
           const token = res.data.access 
-          localStorage.setItem('jwt', token)
-          this.$router.push({name:'TodoList'})
-          this.$emit('login')
+          this.$cookies.set("jwt", token)
+          
         })
     }
   }

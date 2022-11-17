@@ -7,7 +7,8 @@
       </span>
       <span>
         <router-link :to="{ name: 'Login' }">Login</router-link> |
-        <router-link :to="{ name: 'Logout' }">Logout</router-link> 
+        <router-link :to="{ name: 'Logout' }">Logout</router-link> |
+        <router-link :to="{ name: 'MyPage' }">MyPage</router-link> 
       </span>
     </div>
     <router-view />

@@ -16,14 +16,19 @@ export default {
   methods: {
   },
   created() {
-    const token = localStorage.getItem('jwt')
-    console.log(token)
-    if (token) {
-      localStorage.removeItem('jwt')
-      this.$router.push({ name: 'Login' })
-    } else {
-      this.$router.push({ name: 'Login' })
-    }
+    // const token = localStorage.getItem('jwt')
+    // console.log(token)
+    // if (token) {
+    //   localStorage.removeItem('jwt')
+    //   this.$router.push({ name: 'Login' })
+    // } else {
+    //   this.$router.push({ name: 'Login' })
+    // }
+    console.log(this.$cookies.keys().join("\n"))
+    this.$cookies.set("jwt", '')
+    window.Kakao.Auth.logout(
+      console.log(this.$cookies.get("jwt"))
+    )
   }
 }
 </script>

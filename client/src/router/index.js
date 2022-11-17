@@ -5,6 +5,7 @@ import CreateTodo from '@/views/todos/CreateTodo'
 import Login from '@/views/accounts/Login'
 import Logout from '@/views/accounts/Logout'
 import Test from '@/views/accounts/Test'
+import MyPage from '@/views/accounts/MyPage'
 
 Vue.use(VueRouter)
 
@@ -33,6 +34,11 @@ const routes = [
     path: '/accounts/test',
     name: 'Test',
     component: Test,
+  },
+  {
+    path: '/accounts/mypage',
+    name: 'MyPage',
+    component: MyPage,
   },
 ]
 
