@@ -6,6 +6,8 @@ from rest_framework.decorators import api_view
 from .serializers import MovieSerializer
 from .models import Movie
 
+
+
 # Create your views here.
 @api_view(['GET', 'POST'])
 def index(request):
@@ -16,3 +18,15 @@ def index(request):
         # serializer = MovieSerializer(movies, many=True)
         serializer = MovieSerializer(random_movies, many=True)
         return Response(serializer.data)
+
+@api_view(['GET', 'POST'])
+def detail(request, movie_id):
+    if request.method == 'GET':
+        movie = Movie.objects.get(id=movie_id)
+        serializer = MovieSerializer(movie)
+        print(serializer.data)
+        return Response(serializer.data)
+
+
+def findSimilarity():
+    pass
