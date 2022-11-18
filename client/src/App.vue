@@ -16,7 +16,6 @@
 </template>
 
 <script>
-
 export default {
   name: 'App',
   data: function () {
@@ -35,6 +34,23 @@ export default {
 
 
 <style>
+/* Blue Haze
+#C9C6D9
+Cloud Burst
+#283361
+Solid Pink
+#883743
+Alpine
+#B6822D */
+/* Swirl
+#D9D2C7
+Cod Gray
+#0F0F0E
+Highland
+#6B9469
+Slate Gray
+#707993 */
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
