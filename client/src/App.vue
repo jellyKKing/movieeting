@@ -1,15 +1,10 @@
 <template>
   <div id="app">
     <div id="nav">
-      <span>
         <router-link :to="{ name: 'MovieList' }">Movie List</router-link> | 
-        <!-- <router-link :to="{ name: 'CreateTodo' }">Create Todo</router-link> | -->
-      </span>
-      <span>
         <router-link :to="{ name: 'Login' }">Login</router-link> |
         <router-link :to="{ name: 'Logout' }">Logout</router-link> |
         <router-link :to="{ name: 'MyPage' }">MyPage</router-link> 
-      </span>
     </div>
     <router-view />
   </div>
@@ -34,29 +29,20 @@ export default {
 
 
 <style>
-/* Blue Haze
-#C9C6D9
-Cloud Burst
-#283361
-Solid Pink
-#883743
-Alpine
-#B6822D */
-/* Swirl
-#D9D2C7
-Cod Gray
-#0F0F0E
-Highland
-#6B9469
-Slate Gray
-#707993 */
+@font-face {
+    font-family: 'GmarketSansMedium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
 
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: GmarketSansMedium, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: #1D3557;
+  padding: 2rem;
 }
 
 #nav {
@@ -65,10 +51,14 @@ Slate Gray
 
 #nav a {
   font-weight: bold;
-  color: #2c3e50;
+  color: #457B9D;
 }
 
 #nav a.router-link-exact-active {
-  color: #42b983;
+  color: #A8DADC;
+}
+
+h1 {
+  font-weight: bold;
 }
 </style>

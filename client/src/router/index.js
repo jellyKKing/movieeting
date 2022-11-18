@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import MovieList from '@/views/movies/MovieList'
-// import CreateTodo from '@/views/todos/CreateTodo'
+import MovieDetail from '@/views/movies/MovieDetail'
+
 import Login from '@/views/accounts/Login'
 import Logout from '@/views/accounts/Logout'
 import Test from '@/views/accounts/Test'
@@ -15,11 +16,11 @@ const routes = [
     name: 'MovieList',
     component: MovieList,
   },
-  // {
-  //   path: '/todos/create',
-  //   name: 'CreateTodo',
-  //   component: CreateTodo,
-  // },
+  {
+    path: '/movies/:movie_id',
+    name: 'MovieDetail',
+    component: MovieDetail,
+  },
   {
     path: '/accounts/login',
     name: 'Login',

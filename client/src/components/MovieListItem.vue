@@ -7,8 +7,8 @@
     >
     <div class="focus-content">
       <h3>{{ movie.original_title }}</h3>
-      <p>{{ movie.title }}</p>
-      <p>{{ movie.overview }}</p>
+      <h5>{{ movie.title }}</h5>
+      <p class="fw-light">{{ movie.overview }}</p>
     </div>
   </div>
 </template>
@@ -24,13 +24,17 @@ export default {
 
 <style scoped>
 .card {
+  display: flex;
   width: 15rem;
-  height: 30rem;
+  height: 20rem;
   padding: 0;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.1);
   border-radius: 8px;
+  border-color: none;
   box-sizing: border-box;
   overflow: hidden;
+  background-color: #1D3557;
+  color: #F1FAEE;
 }
 
 .card * {
@@ -40,7 +44,7 @@ export default {
 .card img {
   margin: 0;
   /* width: 300px; */
-  height: 450px;
+  max-height: 20rem;
   object-fit: cover;
   display: block;
 }
@@ -49,8 +53,8 @@ export default {
   margin: 0;
   padding: 12px 12px 48px;
   line-height: 32px;
-  font-weight: 500;
-  font-size: 20px;
+  font-weight: bold;
+  /* font-size: 20px; */
 }
 
 .card .focus-content {
@@ -59,12 +63,13 @@ export default {
 }
 
 .card p {
+  text-align: left;
   margin: 0;
   line-height: 1.5;
 }
 
 .card:hover img, .card:focus-within img {
-  margin-top: -80px;
+  margin-top: -20rem;
 }
 
 .card:hover h3, .card:focus-within h3 {

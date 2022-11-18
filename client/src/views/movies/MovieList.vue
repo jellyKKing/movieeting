@@ -1,12 +1,15 @@
 <template>
-  <div class="">
+  <div class="w-90">
     <h1>Movies</h1>
-    <div class="row">
-      <MovieListItem
+    <div class="d-flex row g-4 justify-content-center">
+      <div
+        class="d-flex col-3 justify-content-center"
         v-for="movie in movies"
+        @click="goToDetail(movie)"
         :key="movie.id"
-        :movie=movie
-      />
+      >
+        <MovieListItem :movie=movie />
+      </div>
     </div>
   </div>
 </template>
@@ -28,7 +31,7 @@ export default {
       }
     },
     methods: {
-      getMovies: function () {
+      getMovies() {
         // const token = localStorage.getItem('jwt')
         axios({
           method: 'get',
@@ -38,12 +41,16 @@ export default {
           // },
         })
           .then(res => {
-            console.log(res)
+            // console.log(res)
             this.movies = res.data
           })
           .catch(err => {
             console.log(err)
           })
+      },
+      goToDetail(movie) {
+        // console.log('클릭', movie.id)
+        this.$router.push({name: 'MovieDetail', params: {movie_id: movie.id}})
       }
     },
     mounted() {
