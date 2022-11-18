@@ -2,8 +2,8 @@
   <div id="app">
     <div id="nav">
       <span>
-        <router-link :to="{ name: 'TodoList' }">Todo List</router-link> | 
-        <router-link :to="{ name: 'CreateTodo' }">Create Todo</router-link> |
+        <router-link :to="{ name: 'MovieList' }">Movie List</router-link> | 
+        <!-- <router-link :to="{ name: 'CreateTodo' }">Create Todo</router-link> | -->
       </span>
       <span>
         <router-link :to="{ name: 'Login' }">Login</router-link> |

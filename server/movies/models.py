@@ -1,5 +1,4 @@
 from django.db import models
-# from django.contrib.postgres.fields import ArrayField 
 
 # Create your models here.
 class Genre(models.Model):
@@ -8,19 +7,29 @@ class Genre(models.Model):
 class Keyword(models.Model):
     name = models.CharField(max_length=128)
 
+class Actor(models.Model):
+    name = models.CharField(max_length=128)
+    profile_path = models.CharField(max_length=128, null=True)
+
+class Director(models.Model):
+    name = models.CharField(max_length=128)
+    profile_path = models.CharField(max_length=128, null=True)
+
 class Movie(models.Model):
     title = models.CharField(max_length=128)
+    original_title = models.CharField(max_length=128)
     release_date = models.CharField(max_length=128)
-    vote_average = models.FloatField()
-    overview = models.TextField()
-    backdrop_path = models.TextField()
-    paster_path = models.TextField()
+    vote_average = models.FloatField(null=True, blank=True)
+    popularity = models.FloatField()
+    overview = models.TextField(null=True, blank=True)
+    backdrop_path = models.CharField(max_length=128)
+    poster_path = models.CharField(max_length=128)
     genres = models.ManyToManyField(Genre, related_name='movie_genres')
-    keywords = models.ManyToManyField(Keyword, related_name='movie_keywords', blank=True)
-    director = models.CharField(max_length=512, blank=True)
-    cast = models.CharField(max_length=512, blank=True)
-    vote_average_naver = models.FloatField(blank=True)
-    link_naver = models.TextField()
+    keywords = models.ManyToManyField(Keyword, related_name='movie_keywords')
+    actors = models.ManyToManyField(Actor, related_name='movie_actors')
+    directors = models.ManyToManyField(Director, related_name='movie_directors')
+    vote_average_naver = models.FloatField(null=True, blank=True)
+    link_naver = models.TextField(null=True, blank=True)
 
 
 
