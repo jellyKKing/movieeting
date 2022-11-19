@@ -2,10 +2,13 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import VueCookies from "vue-cookies"
-// import "../node_modules/bootstrap/dist/css/bootstrap.css";
-// import "../node_modules/bootstrap/dist/js/bootstrap.bundle";
-import 'bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
+// bootstrap
+import "../node_modules/bootstrap/dist/css/bootstrap.css";
+import "../node_modules/bootstrap/dist/js/bootstrap.bundle";
+import "@/assets/css/bs-custom.css"
+// import 'bootstrap';
+// import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/scss/bootstrap'
 
 //쿠키를 사용한다.
 Vue.use(VueCookies);

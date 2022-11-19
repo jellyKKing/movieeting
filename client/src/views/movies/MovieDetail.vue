@@ -1,6 +1,6 @@
 <template >
   <div>
-    <div class="">
+    <div id="noiseImg">
       <img :src="`https://image.tmdb.org/t/p/original${movie.backdrop_path}`" width="500px">
     </div>
     <h1>Detail</h1>
@@ -58,6 +58,7 @@ export default {
         url: `${API_URL}/movies/${this.movie_id}/`,
       })
         .then(res => {
+          console.log(res)
           this.movie = res.data
           // bodyElem.style.backgroundImage= `url(https://image.tmdb.org/t/p/original${this.movie.backdrop_path})`
         })
@@ -74,8 +75,8 @@ export default {
 </script>
 
 <style>
-body {
+/* body {
   background-repeat: no-repeat;
   background-size: cover;
-}
+} */
 </style>
