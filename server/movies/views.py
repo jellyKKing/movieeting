@@ -24,9 +24,14 @@ def detail(request, movie_id):
     if request.method == 'GET':
         movie = Movie.objects.get(id=movie_id)
         serializer = MovieSerializer(movie)
-        print(serializer.data)
+        # print(serializer.data)
         return Response(serializer.data)
 
+@api_view(['GET'])
+def popular(request):
+    movie = Movie.objects.order_by('-popularity')[:11]
+    serializer = MovieSerializer(movie, many=True)
+    return Response(serializer.data)
 
 def findSimilarity():
     pass

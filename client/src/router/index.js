@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import MovieList from '@/views/movies/MovieList'
+
+import Home from '@/views/movies/Home'
 import MovieDetail from '@/views/movies/MovieDetail'
 
 import Login from '@/views/accounts/Login'
@@ -8,13 +9,17 @@ import Logout from '@/views/accounts/Logout'
 import Test from '@/views/accounts/Test'
 import MyPage from '@/views/accounts/MyPage'
 
-Vue.use(VueRouter)
+// swiper
+import VueAwesomeSwiper from 'vue-awesome-swiper'
+import 'swiper/dist/css/swiper.min.css'
+
+Vue.use(VueRouter, VueAwesomeSwiper,)
 
 const routes = [
   {
     path: '/movies',
-    name: 'MovieList',
-    component: MovieList,
+    name: 'Home',
+    component: Home,
   },
   {
     path: '/movies/:movie_id',

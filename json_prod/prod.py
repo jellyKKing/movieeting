@@ -15,7 +15,7 @@ import time
 
 
 TMDB_KEY = "5f026928c69d847d1b311cb08f6c4291"
-NUM_OF_MOVIES = 500
+NUM_OF_MOVIES = 1000
 
 # with open('./movie_db.json', 'w', encoding='UTF-8') as f:
 #     response = requests.get(f'https://api.themoviedb.org/3/movie/popular?api_key={TMDB_KEY}&language=ko-KR&page=1').text
@@ -56,6 +56,7 @@ def isKorean(text):
     return len(result)
 
 def prod_movie_json():
+    data_index = set()
     data_refined = []
     keywords_refined = []
     keywords_index = set()
@@ -66,14 +67,21 @@ def prod_movie_json():
         response = requests.get(f'https://api.themoviedb.org/3/movie/popular?api_key={TMDB_KEY}&language=ko-KR&page={page}').json()
         movies = response["results"]
         for movie in movies:
+            if movie['id'] in data_index:
+                print('error: 중복 영화')
+                continue
             if movie.get('release_date', '') == '':
                 print('error: 날짜 없음')
                 continue
             if movie.get('title', '') == '':
                 print('error: 제목 없음', movie['title'], movie['original_title'])
                 continue
+            if movie.get('overview', '') == '':
+                print('error: 내용 없음')
+                continue
+
             only_latest = datetime.strptime(movie['release_date'], '%Y-%m-%d') > datetime.strptime('2012-11-10', '%Y-%m-%d')
-            if movie.get('vote_average', 0) > 6 and movie.get('backdrop_path', False) and movie.get('poster_path', False) and only_latest and isKorean(movie['title']):
+            if movie.get('vote_average', 0) > 5 and movie.get('backdrop_path', False) and movie.get('poster_path', False) and only_latest and isKorean(movie['title']):
                 # from pop movies
                 fields = {
                     'title': movie['title'],
@@ -108,7 +116,7 @@ def prod_movie_json():
                         # 'name' : papagoTrans(keyword['name']),
                         'name' : translator.translate(keyword['name'], src='en', dest='ko').text,
                     }
-                    time.sleep(1)
+                    time.sleep(2)
                     keyword_data = {
                         'pk': keyword['id'],
                         'model': 'movies.keyword',
@@ -183,7 +191,9 @@ def prod_movie_json():
                     'fields': fields,
                 }
 
+                data_index.add(movie['id'])
                 data_refined.append(data)
+                print('success',movie['id'], '추가', f'({len(data_refined)}/{NUM_OF_MOVIES})')
             
             # prod JSON
             if len(data_refined) >= NUM_OF_MOVIES:
@@ -224,5 +234,5 @@ def prod_genre_json():
 
 
 
-prod_movie_json()
-# prod_genre_json()
+# prod_movie_json()
+prod_genre_json()

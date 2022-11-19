@@ -1,14 +1,14 @@
 <template>
-  <div class="card">
-    <img
-      class="card-img-top"
-      :src="`https://image.tmdb.org/t/p/original${movie.poster_path}`"
-      alt="poster"
-    >
-    <div class="focus-content">
-      <h3>{{ movie.original_title }}</h3>
-      <h5>{{ movie.title }}</h5>
-      <p class="fw-light">{{ movie.overview }}</p>
+  <div class="card-wrapper" @click='goToDetail'>
+    <div class="poster-img-box">
+      <img class="poster-img"
+        :src="`https://image.tmdb.org/t/p/original${movie.poster_path}`"
+        alt="poster"
+      >
+    </div>
+    <div class="poster-text">
+      <p class="poster-movie-title">{{ movie.original_title }}</p>
+      <p class="poster-movie-subtitle">{{ movie.title }}</p>
     </div>
   </div>
 </template>
@@ -18,12 +18,73 @@ export default {
   name: 'MovieListItem',
   props: {
     movie: Object,
+  },
+  methods: {
+    goToDetail() {
+      this.$router.push({name: 'MovieDetail', params: {movie_id: this.movie.id}})
+    }
   }
 }
 </script>
 
 <style scoped>
-.card {
+.card-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 15rem;
+  padding-top: 1rem;
+  box-sizing: border-box;
+  /* border: 1px solid red; */
+}
+.poster-img-box{
+  display: flex;
+  flex-direction: column;
+  width: auto;
+  overflow: hidden;
+  margin: 0;
+  border: 1px solid hsl(210,16.7%,97.6%, 10%);
+  border-radius: 5px;
+  transition: scale 0.3s;
+  /* max-height: 20rem; */
+}
+.poster-img-box:hover{
+  scale: 102%;
+}
+
+.poster-img {
+  margin: 0;
+  max-width: 100%;
+  aspect-ratio: 3/4;
+  border-radius: 5px;
+  object-fit: cover;
+}
+
+.poster-text {
+  margin: 0;
+  text-align: left;
+  padding: 20px 5px;
+  
+}
+
+.poster-movie-title {
+  margin: 0;
+  font-size: 15px;
+  line-height: 15px;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.poster-movie-subtitle {
+  margin: 0;
+  padding: 0;
+  font-size: 12px;
+  line-height: 8px;
+  opacity: 50%;
+}
+/* card css */
+
+
+/* .card {
   display: flex;
   width: 15rem;
   height: 20rem;
@@ -33,8 +94,9 @@ export default {
   border-color: none;
   box-sizing: border-box;
   overflow: hidden;
-  background-color: #1D3557;
+  background-color: #252422;
   color: #F1FAEE;
+  border-radius: 0px;
 }
 
 .card * {
@@ -43,7 +105,6 @@ export default {
 
 .card img {
   margin: 0;
-  /* width: 300px; */
   max-height: 20rem;
   object-fit: cover;
   display: block;
@@ -54,7 +115,6 @@ export default {
   padding: 12px 12px 48px;
   line-height: 32px;
   font-weight: bold;
-  /* font-size: 20px; */
 }
 
 .card .focus-content {
@@ -74,5 +134,5 @@ export default {
 
 .card:hover h3, .card:focus-within h3 {
   padding: 8px 12px 0;
-}
+} */
 </style>
