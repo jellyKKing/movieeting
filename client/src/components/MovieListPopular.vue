@@ -1,5 +1,8 @@
 <template>
   <div>
+    <div id="title" class="d-flex">
+      <h1>🎉Top 10 인기영화</h1>
+    </div>
     <swiper ref="filterSwiper" :options="swiperOption" role="tablist">
       <swiper-slide role="tab" v-for="movie in movies" :key=movie.id>
         <MovieListItem :movie=movie />
@@ -51,6 +54,10 @@ export default {
       })
         .then(res => {
           this.movies = res.data
+          // just show top 1 movie backdrop when starts up
+          const headerBg = document.getElementById('header-bg')
+          const backdrop = `url(https://image.tmdb.org/t/p/original${this.movies[0].backdrop_path})`
+          headerBg.style.backgroundImage = backdrop
         })
         .catch(err => {
           console.log(err)
@@ -60,6 +67,8 @@ export default {
   created() {
     this.getPolular()
   },
+  mounted() {
+  }
 }
 </script>
 
@@ -123,4 +132,10 @@ export default {
 // .swiper-button-prev::after {
 //   display: none;
 // }
+
+#title {
+  margin: 0rem 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid hsla(210,16.7%,97.6%, 0.1);
+}
 </style>
