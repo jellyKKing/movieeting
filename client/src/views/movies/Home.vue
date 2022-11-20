@@ -1,7 +1,6 @@
 <template>
   <div class="home">
     <!-- pop row -->
-    <h1>Popular</h1>
     <MovieListPopular/>
   </div>
 </template>
@@ -33,7 +32,5 @@ export default {
     display: flex;
     flex-direction: column;
     padding: 0rem;
-
   }
-
 </style>
