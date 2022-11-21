@@ -38,14 +38,37 @@
     <div id="header-overlay"></div>
     <div id="header-bg"></div>
     <!-- router-view -->
-    <div class="container-fluid d-flex justify-content-center">
-      <div id="body">
-        <router-view @change="change"/>
+    <div style="position: relative; min-height: 100%; padding-bottom: 100px">
+      <div class="container-fluid d-flex justify-content-center">
+        <div id="body">
+          <router-view @change="change"/>
+        </div>
       </div>
+      <!-- footer -->
+      <modals-container />
+      <div v-if="modalShow">hi~</div>
+      <footer>
+        <div class="container d-flex flex-row">
+          <div class="d-flex align-items-center mt-3 fw-bold opacity-50">
+            <span>팀명</span>
+          </div>
+          <div class="vstack gap-3 mt-3">
+            <div class="hstack gap-3 opacity-50 d-flex w-100 justify-content-end" style="width: 150px;">
+              <p class="m-0">송단샘</p>
+              <div class="vr"></div>
+              <a href="mailto:s2770853@gmail.com"><i class="bi bi-envelope-fill"></i></a>
+              <a href="https://github.com/Song-d-s"><i class="bi bi-github"></i></a>
+            </div>
+            <div class="hstack gap-3 opacity-50 d-flex w-100 justify-content-end" style="width: 150px;">
+              <p class="m-0">정민지</p>
+              <div class="vr"></div>
+              <i class="bi bi-envelope-fill"></i>
+              <a href="https://github.com/jellyKKing"><i class="bi bi-github"></i></a>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
-    <!-- footer -->
-    <modals-container />
-    <div v-if="modalShow">hi~</div>
   </div>
 </template>
 
@@ -160,6 +183,11 @@ export default {
     font-style: normal;
 }
 
+*{
+  margin: 0;
+  padding: 0;
+}
+
 #app {
   font-family: IBMPlexSansKR-Regular, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -226,14 +254,37 @@ h1 {
 }
 
 #header-overlay{
+  position: relative;
   margin-bottom: 350px
 }
 
 #body {
-  width: 90%;
+  width: 80%;
+  min-width: 342px;
   background-color: #212529;
   border: 1px solid hsla(210,16.7%,97.6%, 0.1);
   padding: 1rem 0rem;
 }
 
+@keyframes jump {
+  0%   {transform: translate3d(0,0,0) scale3d(1,1,1);}
+  25%  {transform: translate3d(0,30%,0) scale3d(.7,1.5,1);}
+  50% {transform: translate3d(0,100%,0) scale3d(1.5,.7,1);}
+  75%  {transform: translate3d(0,30%,0) scale3d(.7,1.5,1);}
+  100%   {transform: translate3d(0,0,0) scale3d(1,1,1);}
+}
+
+body.modal-open {
+  padding: 0px !important;
+  overflow: auto;
+}
+
+footer{
+  border-top: 1px solid hsla(210,16.7%,97.6%, 0.1);
+  position: absolute;
+  bottom: -100px;
+  background-color: #1b1f22;
+  width: 100%;
+  height: 100px;
+}
 </style>
