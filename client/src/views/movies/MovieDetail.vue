@@ -20,11 +20,19 @@
               <p>{{ movie.vote_average }}</p>
             </div>
           </div>
-          <div class="score naver" v-show="movie.vote_average_naver">
+          <div class="score naver me-3" v-show="movie.vote_average_naver">
             <p>N</p>
             <div class="hstack">
               <i id="star" class="bi bi-star-fill font" style="font-size: 0.8rem;"></i>
               <p>{{ movie.vote_average_naver }}</p>
+            </div>
+          </div>
+          <!-- 좋아요 -->
+          <div class="score likes">
+            <p>좋아요</p>
+            <div class="hstack">
+              <i id="heart" class="bi bi-heart-fill" style="font-size: 0.8rem;"></i>
+              <p>{{ movie.vote_average }}</p>
             </div>
           </div>
         </div>
@@ -84,8 +92,11 @@
       </div>
       <!-- right -->
       <div id="rightSection" class="col-sm-12 col-md">
-        <h1>리뷰 넣을거임</h1>
-        {{ movie.title }}
+        <div id="info-box">
+          <MovieReview
+            :movie_id=movie_id
+          />
+        </div>
         <br>
       </div>
     </div>
@@ -98,6 +109,7 @@
 <script>
 import axios from 'axios'
 import CastList from '@/components/CastList'
+import MovieReview from '@/components/MovieReview'
 
 const API_URL = 'http://127.0.0.1:8000'
 // const bodyElem = document.querySelector('body')
@@ -112,6 +124,7 @@ export default {
   },
   components: {
     CastList,
+    MovieReview,
   },
   methods: {
     getMovieDetail() {
@@ -269,6 +282,20 @@ export default {
   }
   &.naver{
     background-color: #20bf55;
+  }
+  &.likes {
+    background-color: #e5383b;
+    overflow: hidden;
+    i{
+      margin: 0;
+      padding-top: 1px;
+    }
+    &:hover{
+      i{
+        transform-origin: center;
+        animation: jump .75s linear alternate infinite;
+      }
+    }
   }
 }
 

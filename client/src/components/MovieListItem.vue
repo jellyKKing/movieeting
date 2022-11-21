@@ -5,13 +5,13 @@
         :src="`https://image.tmdb.org/t/p/original${movie.poster_path}`"
         alt="poster"
       >
+      <div id="like-btn">
+        <i class="bi bi-heart-fill"></i>
+      </div>
     </div>
     <div class="poster-text">
       <p class="poster-movie-title">{{ movie.original_title }}</p>
       <p class="poster-movie-subtitle">{{ movie.title }}</p>
-    </div>
-    <div id="like-btn">
-      <p>❤</p>
     </div>
   </div>
 </template>
@@ -147,14 +147,6 @@ export default {
   padding: 8px 12px 0;
 } */
 
-@keyframes jump {
-  0%   {transform: translate3d(0,0,0) scale3d(1,1,1);}
-  25%  {transform: translate3d(0,30%,0) scale3d(.7,1.5,1);}
-  50% {transform: translate3d(0,100%,0) scale3d(1.5,.7,1);}
-  75%  {transform: translate3d(0,30%,0) scale3d(.7,1.5,1);}
-  100%   {transform: translate3d(0,0,0) scale3d(1,1,1);}
-}
-
 #like-btn {
   display: flex;
   position: absolute;
@@ -169,13 +161,15 @@ export default {
   justify-content: center;
   margin: 0.5rem;
   border: 1px solid hsla(210,16.7%,97.6%, 0.1);
-  p{
+  i{
     margin: 0;
     padding-top: 1px;
   }
-  p:hover{
-    transform-origin: center;
-    animation: jump .75s linear alternate infinite;
+  &:hover{
+    i{
+      transform-origin: center;
+      animation: jump .75s linear alternate infinite;
+    }
   }
 }
 </style>
