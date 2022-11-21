@@ -1,14 +1,18 @@
 <template>
   <div>
     <div id="title" class="d-flex">
-      <h1>🎉Top 10 인기영화</h1>
+      <h1><i class="bi bi-award-fill text-primary"></i> Top 10 인기영화</h1>
     </div>
     <swiper ref="filterSwiper" :options="swiperOption" role="tablist">
       <swiper-slide role="tab" v-for="movie in movies" :key=movie.id>
         <MovieListItem :movie=movie />
       </swiper-slide>
-      <!-- <div class="swiper-button-prev" slot="button-prev"></div>
-      <div class="swiper-button-next" slot="button-next"></div> -->
+      <div class="swiper-button-prev" slot="button-prev">
+        <i class="bi bi-caret-left-fill"></i>
+      </div>
+      <div class="swiper-button-next" slot="button-next">
+        <i class="bi bi-caret-right-fill"></i>
+      </div>
     </swiper>
   </div>
 </template>
@@ -33,10 +37,13 @@ export default {
         slidesOffsetAfter: 0, // slidesOffsetAfter는 마지막 슬라이드 시작점 + 마지막 슬라이드 너비에 해당하는 위치의 변경이 필요할 때 사용
         freeMode: false, // freeMode를 사용시 스크롤하는 느낌으로 구현 가능
         centerInsufficientSlides: true, // 컨텐츠의 수량에 따라 중앙정렬 여부를 결정함
-        // navigation: {
-        //   nextEl: '.swiper-button-next',
-        //   prevEl: '.swiper-button-prev'
-        // }
+        autoplay: {
+          disableOnInteraction: true,
+        },
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev'
+        }
       }
     }
   },
@@ -80,18 +87,18 @@ export default {
     display: block;
     position: absolute;
     top: 0;
-    width: 40px; // container에 준 여백값보다 크지 않게 사이즈 지정하기 (swiper-slide의 클릭 이벤트에 영향을 주지 않고, 이렇게 지정해야 그라데이션이 영역 내부에 있는 탭이 스크롤 하기 전엔 영향을 주지 않음)
+    width: 30px; // container에 준 여백값보다 크지 않게 사이즈 지정하기 (swiper-slide의 클릭 이벤트에 영향을 주지 않고, 이렇게 지정해야 그라데이션이 영역 내부에 있는 탭이 스크롤 하기 전엔 영향을 주지 않음)
     height: 100%;
-    z-index: 10;
+    z-index: 8;
     content: "";
   }
   &:before {
     left: 0;
-    background: linear-gradient(90deg, #212529 -20.19%, rgba(33, 37, 41, 0.8) 18.31%, rgba(33, 37, 41, 0) 75%);
+    background: linear-gradient(90deg, #212529 -10.19%, rgba(33, 37, 41, 0.8) 18.31%, rgba(33, 37, 41, 0) 75%);
   }
   &:after {
     right: 0;
-    background: linear-gradient(270deg, #212529 -20.19%, rgba(33, 37, 41, 0.8) 18.31%, rgba(33, 37, 41, 0) 75%);
+    background: linear-gradient(270deg, #212529 -10.19%, rgba(33, 37, 41, 0.8) 18.31%, rgba(33, 37, 41, 0) 75%);
   }
   //...중략
 }
@@ -108,7 +115,6 @@ export default {
       // color: #84868c;
       border: 0;
       // border-radius: 18px;
-      // background: red;
       appearance: none;
       cursor: pointer;
       justify-content: center;
@@ -116,17 +122,17 @@ export default {
     }
   }
 }
-// .swiper-button-next {
-//   background: url('https://upload.wikimedia.org/wikipedia/commons/4/48/BLANK_ICON.png') no-repeat;
-//   background-size: 50% auto;
-//   background-position: center;
-// }
+.swiper-button-next {
+  background: url('https://upload.wikimedia.org/wikipedia/commons/4/48/BLANK_ICON.png') no-repeat;
+  background-size: 50% auto;
+  background-position: center;
+}
 
-// .swiper-button-prev {
-//   background: url('https://upload.wikimedia.org/wikipedia/commons/4/48/BLANK_ICON.png') no-repeat;
-//   background-size: 50% auto;
-//   background-position: center;
-// }
+.swiper-button-prev {
+  background: url('https://upload.wikimedia.org/wikipedia/commons/4/48/BLANK_ICON.png') no-repeat;
+  background-size: 50% auto;
+  background-position: center;
+}
 
 // .swiper-button-next::after,
 // .swiper-button-prev::after {
