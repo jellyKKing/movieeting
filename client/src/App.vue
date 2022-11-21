@@ -44,13 +44,13 @@
       </div>
     </div>
     <!-- footer -->
-
+    <modals-container />
     <div v-if="modalShow">hi~</div>
   </div>
 </template>
 
 <script>
-// import LoginModal from '@/components/LoginModal'
+import LoginModal from '@/components/LoginModal'
 import KakaoLogin from 'vue-kakao-login'
 import axios from 'axios'
 const API_URL = 'http://127.0.0.1:8000'
@@ -71,6 +71,15 @@ export default {
       console.log('에밋 쓰리 됨')
       this.modalShow = true
       console.log(this.modalShow)
+      
+      this.$modal.show(LoginModal,{
+        hot_table : 'data',
+        modal : this.$modal },{
+            name: 'dynamic-modal',
+            width : '330px',
+            height : '130px',
+            draggable: true,
+      })
     },
     onSuccess (res) {
       console.log("success")
