@@ -10,6 +10,9 @@
       <p class="poster-movie-title">{{ movie.original_title }}</p>
       <p class="poster-movie-subtitle">{{ movie.title }}</p>
     </div>
+    <div id="like-btn">
+      <p>❤</p>
+    </div>
   </div>
 </template>
 
@@ -32,7 +35,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .card-wrapper {
   display: flex;
   flex-direction: column;
@@ -43,11 +46,12 @@ export default {
 }
 .poster-img-box{
   display: flex;
+  position: relative;
   flex-direction: column;
   width: auto;
   overflow: hidden;
   margin: 0;
-  border: 1px solid hsl(210,16.7%,97.6%, 10%);
+  border: 1px solid hsla(210,16.7%,97.6%, 0.1);
   border-radius: 5px;
   transition: scale 0.3s;
   /* box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset, rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px; */
@@ -142,4 +146,36 @@ export default {
 .card:hover h3, .card:focus-within h3 {
   padding: 8px 12px 0;
 } */
+
+@keyframes jump {
+  0%   {transform: translate3d(0,0,0) scale3d(1,1,1);}
+  25%  {transform: translate3d(0,30%,0) scale3d(.7,1.5,1);}
+  50% {transform: translate3d(0,100%,0) scale3d(1.5,.7,1);}
+  75%  {transform: translate3d(0,30%,0) scale3d(.7,1.5,1);}
+  100%   {transform: translate3d(0,0,0) scale3d(1,1,1);}
+}
+
+#like-btn {
+  display: flex;
+  position: absolute;
+  right: 0;
+  width: 30px;
+  height: 30px;
+  overflow: hidden;
+  background: red;
+  border-radius: 50%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0.5rem;
+  border: 1px solid hsla(210,16.7%,97.6%, 0.1);
+  p{
+    margin: 0;
+    padding-top: 1px;
+  }
+  p:hover{
+    transform-origin: center;
+    animation: jump .75s linear alternate infinite;
+  }
+}
 </style>
