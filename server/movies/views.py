@@ -3,8 +3,8 @@ from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .serializers import MovieSerializer
-from .models import Movie
+from .serializers import MovieSerializer, KeywordSerializer
+from .models import Movie, Keyword
 
 
 
@@ -31,6 +31,12 @@ def detail(request, movie_id):
 def popular(request):
     movie = Movie.objects.order_by('-popularity')[:11]
     serializer = MovieSerializer(movie, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def keyword(request, keyword_id):
+    keyword = Keyword.objects.get(id=keyword_id)
+    serializer = KeywordSerializer(keyword)
     return Response(serializer.data)
 
 def findSimilarity():

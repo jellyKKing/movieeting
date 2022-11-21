@@ -8,7 +8,12 @@ class GenreSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class KeywordSerializer(serializers.ModelSerializer):
+    class KeywordMovieSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = Movie
+            fields = '__all__'
 
+    movie_keywords = KeywordMovieSerializer(many=True)
     class Meta:
         model = Keyword
         fields = '__all__'
