@@ -4,8 +4,6 @@ import VueRouter from 'vue-router'
 import Home from '@/views/movies/Home'
 import MovieDetail from '@/views/movies/MovieDetail'
 
-import Login from '@/views/accounts/Login'
-import Logout from '@/views/accounts/Logout'
 import Test from '@/views/accounts/Test'
 import MyPage from '@/views/accounts/MyPage'
 
@@ -25,16 +23,6 @@ const routes = [
     path: '/movies/:movie_id',
     name: 'MovieDetail',
     component: MovieDetail,
-  },
-  {
-    path: '/accounts/login',
-    name: 'Login',
-    component: Login,
-  },
-  {
-    path: '/accounts/logout',
-    name: 'Logout',
-    component: Logout,
   },
   {
     path: '/accounts/test',

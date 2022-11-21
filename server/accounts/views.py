@@ -80,6 +80,7 @@ def kakaoLoginView(request):
 @api_view(['GET'])
 def mypage(request):
     print('마이페이지in')
+    
     if request.user.is_authenticated:
         print('is_authenticated')
         if request.method == 'GET':
