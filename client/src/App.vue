@@ -14,19 +14,22 @@
         <div class="col-3">
           <div class="hstack gap-3">
             <div v-if="!isLogin">
-            <KakaoLogin
-              api-key="9e3e0da3c4e60e3fff9e0174f6fca7b1"
-              image="kakao_login_btn_small"
-              :on-success=onSuccess
-              :on-failure=onFailure
-              />
+              <KakaoLogin
+                api-key="9e3e0da3c4e60e3fff9e0174f6fca7b1"
+                image="kakao_login_btn_small"
+                :on-success=onSuccess
+                :on-failure=onFailure
+                />
             </div>
             <div v-if="isLogin">
               <div class="vr"></div>
+              
+              <div class="vr"></div>
+              <img :src="imgUrl" alt="" width="40px;">
+              <router-link :to="{ name: 'MyPage' }" style="text-decoration:none;">{{ username }}님</router-link> 
+
               <a href="https://kauth.kakao.com/oauth/logout?client_id=19909bfbfb8745d6172a4ab6b541c7e8&logout_redirect_uri=http://localhost:8080/movies" @click="logout">Logout</a>
             </div>
-            <div class="vr"></div>
-            <router-link :to="{ name: 'MyPage' }" style="text-decoration:none;">MyPage</router-link> 
           </div>
         </div>
       </div>
@@ -37,14 +40,17 @@
     <!-- router-view -->
     <div class="container-fluid d-flex justify-content-center">
       <div id="body">
-        <router-view />
+        <router-view @change="change"/>
       </div>
     </div>
     <!-- footer -->
+
+    <div v-if="modalShow">hi~</div>
   </div>
 </template>
 
 <script>
+// import LoginModal from '@/components/LoginModal'
 import KakaoLogin from 'vue-kakao-login'
 import axios from 'axios'
 const API_URL = 'http://127.0.0.1:8000'
@@ -53,12 +59,19 @@ export default {
   name: 'App',
   data: function () {
     return {
+      modalShow : false,
     }
   },
   components: {
-    KakaoLogin
+    KakaoLogin,
+    // LoginModal
   },
   methods: {
+    change () {
+      console.log('에밋 쓰리 됨')
+      this.modalShow = true
+      console.log(this.modalShow)
+    },
     onSuccess (res) {
       console.log("success")
       axios({
@@ -118,7 +131,13 @@ export default {
   computed : {
     isLogin () {
       return this.$store.state.isLogin
-    }
+    },
+    username () {
+      return this.$store.state.loginData.username
+    },
+    imgUrl () {
+      return this.$store.state.loginData.imgUrl
+    },
   }
 }
 </script>

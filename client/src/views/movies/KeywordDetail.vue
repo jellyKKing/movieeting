@@ -10,6 +10,7 @@
       <swiper-slide role="tab" v-for="movie in movies" :key=movie.id>
         <MovieListItem
           :movie=movie
+          
         />
       </swiper-slide>
     </swiper>
@@ -53,6 +54,10 @@ export default {
     MovieListItem,
   },
   methods: {
+    change () {
+      console.log('에밋 원 됨')
+      // this.$emit('change')
+    },
     getKeyword() {
       axios({
         method: 'get',

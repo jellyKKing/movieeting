@@ -31,16 +31,6 @@ const routes = [
     component: KeywordDetail,
   },
   {
-    path: '/accounts/login',
-    name: 'Login',
-    component: Login,
-  },
-  {
-    path: '/accounts/logout',
-    name: 'Logout',
-    component: Logout,
-  },
-  {
     path: '/accounts/test',
     name: 'Test',
     component: Test,

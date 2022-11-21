@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <!-- pop row -->
-    <MovieListPopular/>
+    <MovieListPopular @change="change"/>
   </div>
 </template>
 
@@ -19,7 +19,10 @@ export default {
     }
   },
   methods: {
-    
+    change () {
+      console.log('에밋 투 됨')
+      this.$emit('change')
+    },
   },
   created() {
 
