@@ -1,10 +1,10 @@
 <template >
-  <div class="container">
+  <div v-if="movie" class="container">
     <div class="row position-relative">
       <div class="col-sm-12 col-md-6 col-lg-5 col-xl-4 col-xxl-3 d-flex flex-column align-items-center align-items-md-end">
         <div id="overlay"></div>
         <div id="poster">
-          <img :src="`https://image.tmdb.org/t/p/original${movie.poster_path}`" alt="poster">
+          <img id="poster-here" :src="`https://image.tmdb.org/t/p/original${this.movie.poster_path}`" alt="poster">
         </div>
       </div>
       <div class="col-sm-12 col-md">
@@ -99,7 +99,7 @@ import axios from 'axios'
 import CastList from '@/components/CastList'
 
 const API_URL = 'http://127.0.0.1:8000'
-const bodyElem = document.querySelector('body')
+// const bodyElem = document.querySelector('body')
 
 export default {
   name: 'MovieDetail',
@@ -119,7 +119,6 @@ export default {
         url: `${API_URL}/movies/${this.movie_id}/`,
       })
         .then(res => {
-          console.log(res)
           this.movie = res.data
           const headerBg = document.getElementById('header-bg')
           const backdrop = `url(https://image.tmdb.org/t/p/original${this.movie.backdrop_path})`
@@ -131,8 +130,10 @@ export default {
     }
   },
   mounted() {
+    // console.log(bodyElem)
+  },
+  created() {
     this.getMovieDetail()
-    console.log(bodyElem)
   }
 }
 </script>

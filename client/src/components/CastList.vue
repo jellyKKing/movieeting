@@ -47,7 +47,7 @@ export default {
     swiperSlide,
   },
   props: {
-    actors: Object,
+    actors: Array,
   }
 }
 </script>
