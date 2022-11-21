@@ -75,6 +75,7 @@
               v-for="keyword in movie.keywords"
               :key=keyword.id
               class="btn btn-success m-1 rounded-pill"
+              @click="goToKeyword(keyword)"
             >
               {{ keyword.name }}
             </div>
@@ -127,7 +128,10 @@ export default {
         .catch(err => {
           console.log(err)
         })
-    }
+    },
+    goToKeyword(keyword) {
+      this.$router.push({name: 'KeywordDetail', params: {keyword_id: keyword.id}})
+    },
   },
   mounted() {
     // console.log(bodyElem)

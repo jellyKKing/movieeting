@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 
 import Home from '@/views/movies/Home'
 import MovieDetail from '@/views/movies/MovieDetail'
+import KeywordDetail from '@/views/movies/KeywordDetail'
 
 import Login from '@/views/accounts/Login'
 import Logout from '@/views/accounts/Logout'
@@ -25,6 +26,11 @@ const routes = [
     path: '/movies/:movie_id',
     name: 'MovieDetail',
     component: MovieDetail,
+  },
+  {
+    path: '/movies/keyword/:keyword_id',
+    name: 'KeywordDetail',
+    component: KeywordDetail,
   },
   {
     path: '/accounts/login',
