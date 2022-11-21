@@ -41,3 +41,31 @@ def keyword(request, keyword_id):
 
 def findSimilarity():
     pass
+
+# 좋아요
+@api_view(['POST'])
+def likes(request, movie_id):
+    print('좋아요 django 입성')
+    print(movie_id)
+    print('')
+    # 로그인한 사람만 좋아요~
+    if request.user.is_authenticated:
+        print('user.is_authenticated')
+        movie = Movie.objects.get(pk=movie_id)
+
+        # 좋아요 추가할지 취소할지 무슨 기준으로 if 문을 작성할까?
+        # 2. 현재 게시글에 좋아요를 누른 유저 목록에 현재 좋아요를 요청하는 유저가 있는지를 확인.
+        # if request.user in article.like_users.all():
+        # 1. 현재 게시글에 좋아요를 누른 유저중에 현재 좋아요를 요청하는 유저를 검색해서 존재하는지를 확인.
+        if movie.like_users.filter(pk=request.user.pk).exists():
+        # filter는 쓰고 get은 쓰지 않는 이유: get은 없으면 오류를 반환해서 코드가 진행이 안된다.
+            # 좋아요 취소 (remove)
+            movie.like_users.remove(request.user)
+        else:
+            # 좋아요 추가 (add)
+            movie.like_users.add(request.user)
+        data = {
+            'state' : 0
+        }
+    return Response(data)
+    

@@ -10,6 +10,8 @@ import store from './store'
 // import 'bootstrap';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 // import 'bootstrap/scss/bootstrap'
+import VModal from 'vue-js-modal'
+Vue.use(VModal, { dynamic: true })
 
 //쿠키를 사용한다.
 Vue.use(VueCookies);

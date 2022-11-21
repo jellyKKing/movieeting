@@ -5,7 +5,7 @@
     </div>
     <swiper ref="filterSwiper" :options="swiperOption" role="tablist">
       <swiper-slide role="tab" v-for="movie in movies" :key=movie.id>
-        <MovieListItem :movie=movie />
+        <MovieListItem :movie=movie @change="change"/>
       </swiper-slide>
       <div class="swiper-button-prev" slot="button-prev">
         <i class="bi bi-caret-left-fill"></i>
@@ -53,6 +53,10 @@ export default {
     swiperSlide,
   },
   methods: {
+    change () {
+      console.log('에밋 원 됨')
+      this.$emit('change')
+    },
     getPolular() {
     // top 5 movies on popularity
       axios({

@@ -6,4 +6,5 @@ urlpatterns = [
     path('<int:movie_id>/', views.detail),
     path('popular/', views.popular),
     path('keyword/<int:keyword_id>/', views.keyword),
+    path('<int:movie_id>/likes/',views.likes, name='likes'),
 ]

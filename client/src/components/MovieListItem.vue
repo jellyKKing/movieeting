@@ -5,7 +5,7 @@
         :src="`https://image.tmdb.org/t/p/original${movie.poster_path}`"
         alt="poster"
       >
-      <div id="like-btn">
+      <div id="like-btn" @click.stop="likeClick">
         <i class="bi bi-heart-fill"></i>
       </div>
     </div>
@@ -14,13 +14,28 @@
       <p class="poster-movie-subtitle">{{ movie.title }}</p>
     </div>
   </div>
+
+  
 </template>
 
 <script>
+// import axios from 'axios'
+// import LoginModal from '@/components/LoginModal'
+// const API_URL = 'http://127.0.0.1:8000'
+
 export default {
   name: 'MovieListItem',
+  data () {
+    return {
+      modalMsg : '',
+      modalShow : false,
+    }
+  },
   props: {
     movie: Object,
+  },
+  components : {
+    // LoginModal
   },
   methods: {
     goToDetail() {
@@ -30,7 +45,25 @@ export default {
       const headerBg = document.getElementById('header-bg')
       const backdrop = `url(https://image.tmdb.org/t/p/original${this.movie.backdrop_path})`
       headerBg.style.backgroundImage = backdrop
+    },
+    likeClick () {
+      if (this.isLogin) {
+        console.log('좋아요 클릭 -> 로그인 됨')
+      } else {
+        console.log('좋아요 클릭 -> 로그인 안됨')
+        this.$emit('change')
+      }
+    },
+    modalGoToLogin () {
+
+    },
+    test() {
     }
+  },
+  computed : {
+    isLogin () {
+      return this.$store.state.isLogin
+    },
   }
 }
 </script>
