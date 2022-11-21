@@ -90,11 +90,11 @@
           </div>
         </div>
       </div>
-      <!-- right -->
+      <!-- right side -->
       <div id="rightSection" class="col-sm-12 col-md">
         <div id="info-box">
           <MovieReview
-            :movie_id=movie_id
+            :movie=movie
           />
         </div>
         <br>
