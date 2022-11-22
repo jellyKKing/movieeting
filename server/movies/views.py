@@ -3,8 +3,10 @@ from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .serializers import MovieSerializer, KeywordSerializer
-from .models import Movie, Keyword
+from .serializers import MovieSerializer, KeywordSerializer, CommentSerializer
+from .models import Movie, Keyword, Comment
+
+from django.contrib.auth import get_user_model
 
 
 
@@ -24,7 +26,12 @@ def detail(request, movie_id):
     if request.method == 'GET':
         movie = Movie.objects.get(id=movie_id)
         serializer = MovieSerializer(movie)
-        # print(serializer.data)
+
+        User = get_user_model()
+        for i in range(len(serializer.data['comments'])):
+            user = User.objects.filter(id=serializer.data['comments'][i]['user']).values()
+            serializer.data['comments'][i]['username'] = user[0]['username']
+            
         return Response(serializer.data)
 
 @api_view(['GET'])
@@ -69,3 +76,14 @@ def likes(request, movie_id):
         }
     return Response(data)
     
+@api_view(['POST'])
+def comment_create(request, movie_id):
+    print('###테스트')
+    # movie = Movie.objects.get(pk=movie_id)
+    movie = get_object_or_404(Movie, pk=movie_id)
+    user = request.user
+    # user = get_object_or_404(get_user_model(), pk=request.data['user_id'])
+    serializer = CommentSerializer(data=request.data)
+    if serializer.is_valid(raise_exception=True):
+        serializer.save(movie=movie, user=user)    # commit=False 대신에 외래키를 받기 위해서 article을 인자로 넣어준다.
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
