@@ -41,7 +41,7 @@
     </div>
     <div class="row">
       <!-- left -->
-      <div id="leftSection" class="col-sm-12 col-md-6 col-lg-5 col-xl-4 col-xxl-3">
+      <div id="leftSection" class="col-sm-12 col-md-6 col-lg-5 col-xl-4 col-xxl-3 justify-content-start">
         <!-- info left -->
         <!-- director -->
         <div id="info-box">
@@ -95,6 +95,7 @@
         <div id="info-box">
           <MovieReview
             :movie=movie
+            @refresh-request="refreshAgain"
           />
         </div>
         <br>
@@ -147,13 +148,17 @@ export default {
     goToKeyword(keyword) {
       this.$router.push({name: 'KeywordDetail', params: {keyword_id: keyword.id}})
     },
+    refreshAgain() {
+      this.movie = null
+      this.getMovieDetail()
+    }
   },
   mounted() {
     // console.log(bodyElem)
   },
   created() {
     this.getMovieDetail()
-  }
+  },
 }
 </script>
 

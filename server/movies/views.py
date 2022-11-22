@@ -75,7 +75,23 @@ def likes(request, movie_id):
             movie.like_users.add(request.user)
     movies = list(Movie.objects.filter(pk=movie_id).values())
     return Response(movies)
-    
+
+@api_view(['DELETE', 'PUT'])
+def comment_edit(request, comment_id):
+    print('@@@@@@@@@@@@@들어왔당', comment_id)
+    comment = get_object_or_404(Comment, pk=comment_id)
+    if request.method == 'DELETE':
+        comment.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)  # API는 반드시 정확한 상태 코드를 전달해주어야 한다.
+    elif request.method == 'PUT':
+        serializer = CommentSerializer(comment, data=request.data)  # POST와 article 인스턴스만 다르고 동일.
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data)
+
+
+
+
 @api_view(['POST'])
 def comment_create(request, movie_id):
     print('###테스트')
