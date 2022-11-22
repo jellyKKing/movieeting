@@ -13,8 +13,9 @@
         <!-- right -->
         <div class="col-3">
           <div class="hstack gap-3">
-            <div v-if="!isLogin">
-              <KakaoLogin
+            <div v-if="!isLogin" class=".loginDiv" >
+              <KakaoLogin 
+                ref="loginDiv"
                 api-key="9e3e0da3c4e60e3fff9e0174f6fca7b1"
                 image="kakao_login_btn_small"
                 :on-success=onSuccess
@@ -44,9 +45,15 @@
           <router-view @change="change"/>
         </div>
       </div>
+      
+      <!-- <modals-container /> -->
+      <div v-if="modalShow">
+        해당 기능은 로그인이 필요합니다. 로그인하시겠습니까?
+        <button @click="modalClose">close</button>
+        <button @click="modalLogin">login</button>
+      </div>
+
       <!-- footer -->
-      <modals-container />
-      <div v-if="modalShow">hi~</div>
       <footer>
         <div class="container d-flex flex-row">
           <div class="d-flex align-items-center mt-3 fw-bold opacity-50">
@@ -62,7 +69,7 @@
             <div class="hstack gap-3 opacity-50 d-flex w-100 justify-content-end" style="width: 150px;">
               <p class="m-0">정민지</p>
               <div class="vr"></div>
-              <i class="bi bi-envelope-fill"></i>
+              <a href="mailto:wjdalswl0731@gmail.com"><i class="bi bi-envelope-fill"></i></a>
               <a href="https://github.com/jellyKKing"><i class="bi bi-github"></i></a>
             </div>
           </div>
@@ -73,7 +80,7 @@
 </template>
 
 <script>
-import LoginModal from '@/components/LoginModal'
+// import LoginModal from '@/components/LoginModal'
 import KakaoLogin from 'vue-kakao-login'
 import axios from 'axios'
 const API_URL = 'http://127.0.0.1:8000'
@@ -90,19 +97,20 @@ export default {
     // LoginModal
   },
   methods: {
+    modalClose(){
+      this.modalShow = false
+    },
+    modalLogin(){
+      this.modalClose()
+      // sss = document.querySelectorAll('.loginDiv')
+      // console.log(sss)
+      console.log(this.$refs.loginDiv)
+      this.$refs.loginDiv.$el.click()
+    },
     change () {
       console.log('에밋 쓰리 됨')
       this.modalShow = true
       console.log(this.modalShow)
-      
-      this.$modal.show(LoginModal,{
-        hot_table : 'data',
-        modal : this.$modal },{
-            name: 'dynamic-modal',
-            width : '330px',
-            height : '130px',
-            draggable: true,
-      })
     },
     onSuccess (res) {
       console.log("success")
@@ -148,7 +156,11 @@ export default {
           })
           .then((response) => {
             console.log(response)
-            this.$store.commit('LOGINDATA_IN', response)
+            this.$cookies.set("username",  response.kakao_account.profile.nickname)
+            this.$cookies.set("email",  response.kakao_account.email)
+            this.$cookies.set("imgUrl",  response.kakao_account.profile.profile_image_url)
+            this.$cookies.set("gender",  response.kakao_account.gender)
+            // this.$store.commit('LOGINDATA_IN', response)
           })
           .catch(function(error) {
             console.log(error)
@@ -162,13 +174,13 @@ export default {
   },
   computed : {
     isLogin () {
-      return this.$store.state.isLogin
+      return this.$cookies.get('jwt')? true : false
     },
     username () {
-      return this.$store.state.loginData.username
+      return this.$cookies.get('username')
     },
     imgUrl () {
-      return this.$store.state.loginData.imgUrl
+      return this.$cookies.get('imgUrl')
     },
   }
 }

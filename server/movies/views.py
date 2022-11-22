@@ -48,8 +48,10 @@ def likes(request, movie_id):
     print('좋아요 django 입성')
     print(movie_id)
     print('')
+    print(request.user)
     # 로그인한 사람만 좋아요~
     if request.user.is_authenticated:
+        print('유저 들어옴')
         print('user.is_authenticated')
         movie = Movie.objects.get(pk=movie_id)
 
@@ -64,8 +66,6 @@ def likes(request, movie_id):
         else:
             # 좋아요 추가 (add)
             movie.like_users.add(request.user)
-        data = {
-            'state' : 0
-        }
-    return Response(data)
+    movies = list(Movie.objects.filter(pk=movie_id).values())
+    return Response(movies)
     

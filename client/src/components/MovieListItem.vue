@@ -19,9 +19,8 @@
 </template>
 
 <script>
-// import axios from 'axios'
-// import LoginModal from '@/components/LoginModal'
-// const API_URL = 'http://127.0.0.1:8000'
+import axios from 'axios'
+const API_URL = 'http://127.0.0.1:8000'
 
 export default {
   name: 'MovieListItem',
@@ -35,7 +34,6 @@ export default {
     movie: Object,
   },
   components : {
-    // LoginModal
   },
   methods: {
     goToDetail() {
@@ -48,7 +46,21 @@ export default {
     },
     likeClick () {
       if (this.isLogin) {
+        const token = this.$cookies.get('jwt')
         console.log('좋아요 클릭 -> 로그인 됨')
+        // movie 에 좋아요 수가 있어야 되고
+        // 내가 좋아요 한 목록이 있어야 되고
+        axios({
+          method: 'post',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+          url: `${API_URL}/movies/${this.movie.id}/likes/`,
+        })
+          .then((res) => {
+            console.log(res)
+          })
+
       } else {
         console.log('좋아요 클릭 -> 로그인 안됨')
         this.$emit('change')
