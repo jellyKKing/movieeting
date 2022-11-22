@@ -3,10 +3,12 @@ import VueRouter from 'vue-router'
 
 import Home from '@/views/movies/Home'
 import MovieDetail from '@/views/movies/MovieDetail'
-import KeywordDetail from '@/views/movies/KeywordDetail'
+// import KeywordDetail from '@/views/movies/KeywordDetail'
+import Survey from '@/views/movies/Survey'
 
 import Test from '@/views/accounts/Test'
 import MyPage from '@/views/accounts/MyPage'
+
 
 // swiper
 import VueAwesomeSwiper from 'vue-awesome-swiper'
@@ -28,7 +30,8 @@ const routes = [
   {
     path: '/movies/keyword/:keyword_id',
     name: 'KeywordDetail',
-    component: KeywordDetail,
+    // component: KeywordDetail,
+    component: () => import('@/views/movies/KeywordDetail')
   },
   {
     path: '/accounts/test',
@@ -39,6 +42,11 @@ const routes = [
     path: '/accounts/mypage',
     name: 'MyPage',
     component: MyPage,
+  },
+  {
+    path: 'movies/survey',
+    name: 'Survey',
+    component: Survey,
   },
 ]
 
