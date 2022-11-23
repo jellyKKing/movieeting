@@ -1,9 +1,7 @@
 <template>
   <div>
-    <h1>Welcome Survey</h1>
-    <div id="surveyBox">
-      <MovieListSurvey/>
-    </div>
+    <h1>{{username}} 님, 좋아하는 콘텐츠를 5개 선택하세요.</h1>
+    <MovieListSurvey/>
   </div>
 </template>
 
@@ -11,15 +9,18 @@
 import MovieListSurvey from '@/components/MovieListSurvey'
 
 export default {
-  name: 'Survey',
+  name: 'SurveyWelcome',
   components: {
     MovieListSurvey,
   },
   method: {
 
   },
-  created() {
-  },
+  computed : {
+    username () {
+      return this.$cookies.get("username")
+    },
+  }
 }
 </script>
 

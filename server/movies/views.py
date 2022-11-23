@@ -1,4 +1,3 @@
-from random import choices
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
 from rest_framework import status
@@ -16,13 +15,14 @@ from sklearn.metrics.pairwise import cosine_similarity
 # Create your views here.
 @api_view(['GET', 'POST'])
 def index(request):
-    if request.method == 'GET':
-        movies = Movie.objects.all()
-        random_movies = choices(movies, k=10)
-        # print(movies[0])
-        # serializer = MovieSerializer(movies, many=True)
-        serializer = MovieSerializer(random_movies, many=True)
-        return Response(serializer.data)
+    # if request.method == 'GET':
+    #     movies = Movie.objects.all()
+    #     random_movies = choices(movies, k=10)
+    #     # print(movies[0])
+    #     # serializer = MovieSerializer(movies, many=True)
+    #     serializer = MovieSerializer(random_movies, many=True)
+    #     return Response(serializer.data)
+    pass
 
 @api_view(['GET', 'POST'])
 def detail(request, movie_id):
@@ -43,11 +43,12 @@ def popular(request):
     serializer = MovieSerializer(movie, many=True)
     return Response(serializer.data)
 
+MOVIE = Movie.objects.all()
+
 @api_view(['GET'])
 def random(request):
-    movie = choices(Movie.objects.all(), k=20)
+    movie = MOVIE.order_by('?')[:31]
     serializer = MovieSerializer(movie, many=True)
-    print(serializer)
     return Response(serializer.data)    
 
 @api_view(['GET'])
