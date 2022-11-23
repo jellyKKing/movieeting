@@ -1,10 +1,11 @@
 from random import choices
 from django.shortcuts import get_object_or_404
+from django.contrib.auth import get_user_model
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .serializers import MovieSerializer, KeywordSerializer
-from .models import Movie, Keyword
+from .serializers import MovieSerializer, KeywordSerializer, CommentSerializer
+from .models import Movie, Keyword, Comment
 import csv
 import pandas as pd
 import json
@@ -28,7 +29,12 @@ def detail(request, movie_id):
     if request.method == 'GET':
         movie = Movie.objects.get(id=movie_id)
         serializer = MovieSerializer(movie)
-        # print(serializer.data)
+
+        User = get_user_model()
+        for i in range(len(serializer.data['comments'])):
+            user = User.objects.filter(id=serializer.data['comments'][i]['user']).values()
+            serializer.data['comments'][i]['username'] = user[0]['username']
+            
         return Response(serializer.data)
 
 @api_view(['GET'])
@@ -92,9 +98,6 @@ def comment_edit(request, comment_id):
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data)
-
-
-
 
 @api_view(['POST'])
 def comment_create(request, movie_id):
