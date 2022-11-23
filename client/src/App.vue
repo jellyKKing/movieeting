@@ -197,6 +197,11 @@ export default {
       headerOverlay.setAttribute('style', 'margin-bottom: 350px')
     }
   },
+  mounted () {
+    this.isLogin = this.$cookies.get("jwt")
+    this.username = this.$cookies.get("username")
+    this.imgUrl = this.$cookies.get("imgUrl")
+  }
 }
 </script>
 

@@ -95,8 +95,10 @@ export default {
       }
       axios({
         method: 'post',
-        url: `${API_URL}/movies/${this.movie.id}/comment/`,
-
+        url: `${API_URL}/movies/${this.movie.id}/comments/`,
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
         data: {
           content: this.reviewInput,
           rating: this.rating,
@@ -139,7 +141,7 @@ export default {
   },
   computed: {
     reverseComments() {
-      return this.movie.comments.slice().reverse();
+      return this.movie.comments.slice().reverse()
     }  
   }
 }

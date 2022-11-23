@@ -74,7 +74,7 @@ export default {
       position: absolute;
       top: 0;
       width: 30px; // container에 준 여백값보다 크지 않게 사이즈 지정하기 (swiper-slide의 클릭 이벤트에 영향을 주지 않고, 이렇게 지정해야 그라데이션이 영역 내부에 있는 탭이 스크롤 하기 전엔 영향을 주지 않음)
-      height: 100%;
+      height: 30px;
       z-index: 8;
       content: "";
     }

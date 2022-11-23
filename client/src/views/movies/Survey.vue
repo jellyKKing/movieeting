@@ -25,6 +25,6 @@ export default {
 
 <style lang="scss" scoped>
 #surveyBox {
-  height: 800px;
+  height: auto;
 }
 </style>
