@@ -8,8 +8,6 @@ from .models import Movie, Keyword, Comment
 
 from django.contrib.auth import get_user_model
 
-
-
 # Create your views here.
 @api_view(['GET', 'POST'])
 def index(request):
@@ -39,6 +37,13 @@ def popular(request):
     movie = Movie.objects.order_by('-popularity')[:11]
     serializer = MovieSerializer(movie, many=True)
     return Response(serializer.data)
+
+@api_view(['GET'])
+def random(request):
+    movie = choices(Movie.objects.all(), k=20)
+    serializer = MovieSerializer(movie, many=True)
+    print(serializer)
+    return Response(serializer.data)    
 
 @api_view(['GET'])
 def keyword(request, keyword_id):
