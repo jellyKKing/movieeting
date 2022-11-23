@@ -1,6 +1,5 @@
 from rest_framework import serializers
-from .models import Genre, Keyword, Actor, Director, Movie, Comment
-from django.contrib.auth import get_user_model
+from .models import Genre, Keyword, Actor, Director, Movie
 
 class GenreSerializer(serializers.ModelSerializer):
 
@@ -31,28 +30,13 @@ class DirectorSerializer(serializers.ModelSerializer):
         model = Director
         fields = '__all__'
 
-class UserSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = get_user_model()
-        field = '__all__'
-
-class CommentSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Comment
-        fields = '__all__'
-        read_only_fields = ('movie','user')
-        
 class MovieSerializer(serializers.ModelSerializer):
     genres = GenreSerializer(many=True)
     keywords = KeywordSerializer(many=True)
     actors = ActorSerializer(many=True)
     directors = DirectorSerializer(many=True)
-    comments = CommentSerializer(many=True)
 
     class Meta:
         model = Movie
         fields = '__all__'
-
 

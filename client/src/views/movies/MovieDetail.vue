@@ -134,9 +134,7 @@ export default {
         url: `${API_URL}/movies/${this.movie_id}/`,
       })
         .then(res => {
-          // this.movie = res.data.serializer
           this.movie = res.data
-
           const headerBg = document.getElementById('header-bg')
           const backdrop = `url(https://image.tmdb.org/t/p/original${this.movie.backdrop_path})`
           headerBg.style.backgroundImage = backdrop

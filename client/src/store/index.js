@@ -6,7 +6,6 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     loginData : {
-      userid: '',
       username: '',
       email : '',
       imgUrl : '',
@@ -23,7 +22,6 @@ export default new Vuex.Store({
     LOGINDATA_IN(state, response){
       console.log('뀹')
       console.log(response)
-      state.loginData.userid = response.id
       state.loginData.username = response.kakao_account.profile.nickname
       state.loginData.email = response.kakao_account.email
       state.loginData.imgUrl = response.kakao_account.profile.profile_image_url

@@ -95,10 +95,8 @@ export default {
       }
       axios({
         method: 'post',
-        url: `${API_URL}/movies/${this.movie.id}/comments/`,
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
+        url: `${API_URL}/movies/${this.movie.id}/comment/`,
+
         data: {
           content: this.reviewInput,
           rating: this.rating,
