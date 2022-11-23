@@ -4,8 +4,8 @@
       <h1><i class="bi bi-award-fill text-primary"></i> Top 10 인기영화</h1>
     </div>
     <swiper ref="filterSwiper" :options="swiperOption" role="tablist">
-      <swiper-slide role="tab" v-for="movie in movies" :key=movie.id>
-        <MovieListItem :movie=movie @change="change"/>
+      <swiper-slide role="tab" v-for="movie in movies" :key=movie.id >
+        <MovieListItem :movie=movie @change="change" class="swiper-lazy"/>
       </swiper-slide>
       <div class="swiper-button-prev" slot="button-prev">
         <i class="bi bi-caret-left-fill"></i>
@@ -37,6 +37,7 @@ export default {
         slidesOffsetAfter: 0, // slidesOffsetAfter는 마지막 슬라이드 시작점 + 마지막 슬라이드 너비에 해당하는 위치의 변경이 필요할 때 사용
         freeMode: false, // freeMode를 사용시 스크롤하는 느낌으로 구현 가능
         // mousewheel: true,
+        lazy: true,
         centerInsufficientSlides: true, // 컨텐츠의 수량에 따라 중앙정렬 여부를 결정함
         autoplay: {
           disableOnInteraction: true,

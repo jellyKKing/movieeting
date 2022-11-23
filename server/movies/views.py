@@ -170,3 +170,6 @@ def movies_json_to_csv():
         
         write.writerow(fields) 
         write.writerows(rows)
+
+def survey():
+    pass

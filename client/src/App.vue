@@ -191,6 +191,7 @@ export default {
   },
   updated() {
     const headerOverlay = document.getElementById('header-overlay')
+    console.log(this.$route.name)
     if (this.$route.name === 'Survey') {
       headerOverlay.setAttribute('style', 'margin-bottom: 100px')
     } else {
@@ -292,6 +293,7 @@ h1 {
 #body {
   width: 80%;
   min-width: 342px;
+  min-height: 400px;
   background-color: #212529;
   border: 1px solid hsla(210,16.7%,97.6%, 0.1);
   padding: 1rem 0rem;

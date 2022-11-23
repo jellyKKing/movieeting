@@ -1,15 +1,13 @@
 <template>
-  <div class="card-wrapper" @mouseover='changeHeaderBg'>
+  <div class="card-wrapper" @mouseover='changeHeaderBg' @click="cardSelect">
     <div class="poster-img-box">
       <img class="poster-img"
         :src="`https://image.tmdb.org/t/p/original${movie.poster_path}`"
         alt="poster"
       >
-      <!-- <div id="like-btn" @click.stop="likeClick">
-        <i class="bi bi-heart-fill"></i>
-      </div> -->
+      <div id="check-blank"></div>
     </div>
-    <div class="poster-text">
+    <div class="poster-text text-truncate">
       <p class="poster-movie-title">{{ movie.original_title }}</p>
       <p class="poster-movie-subtitle">{{ movie.title }}</p>
     </div>
@@ -20,7 +18,7 @@
 
 <script>
 export default {
-  name: 'MovieListItem',
+  name: 'MovieListItemForSurvey',
   data () {
     return {
       modalMsg : '',
@@ -38,6 +36,11 @@ export default {
       const backdrop = `url(https://image.tmdb.org/t/p/original${this.movie.backdrop_path})`
       headerBg.style.backgroundImage = backdrop
     },
+    cardSelect(event) {
+      const selectedCard = event.currentTarget
+      selectedCard.classList.toggle('selected')
+      // 선택 / 선택 취소 에밋으로 올려보내주기 위에서 종합할 것.
+    }
   },
   computed : {
     isLogin () {
@@ -49,18 +52,34 @@ export default {
 
 <style lang="scss" scoped>
 .card-wrapper {
+  position: relative;
   display: flex;
   flex-direction: column;
   width: 15rem;
   padding-top: 1rem;
   box-sizing: border-box;
-  /* border: 1px solid red; */
 }
+
+.selected{
+  .poster-img-box{
+    border: 2px solid hsla(37.3,97.5%,52.7%, 0.5);
+  }
+  #check-blank:before {
+    position: absolute;
+    top: -5px;
+    display: block;
+    z-index: 10;
+    content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' fill='orange' class='bi bi-check' viewBox='0 0 16 16'%3E%3Cpath d='M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z'/%3E%3C/svg%3E");
+  }
+}
+
 .poster-img-box{
   display: flex;
   position: relative;
   flex-direction: column;
   width: auto;
+  // object-fit: cover;
+  aspect-ratio: 3/4;
   overflow: hidden;
   margin: 0;
   border: 1px solid hsla(210,16.7%,97.6%, 0.1);
@@ -104,84 +123,23 @@ export default {
   line-height: 12px;
   opacity: 50%;
 }
-/* card css */
 
 
-/* .card {
-  display: flex;
-  width: 15rem;
-  height: 20rem;
-  padding: 0;
-  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.1);
-  border-radius: 8px;
-  border-color: none;
-  box-sizing: border-box;
-  overflow: hidden;
-  background-color: #252422;
-  color: #F1FAEE;
-  border-radius: 0px;
-}
-
-.card * {
-  transition: 0.3s ease all;
-}
-
-.card img {
-  margin: 0;
-  max-height: 20rem;
-  object-fit: cover;
-  display: block;
-}
-
-.card h3 {
-  margin: 0;
-  padding: 12px 12px 48px;
-  line-height: 32px;
-  font-weight: bold;
-}
-
-.card .focus-content {
-  display: block;
-  padding: 8px 12px;
-}
-
-.card p {
-  text-align: left;
-  margin: 0;
-  line-height: 1.5;
-}
-
-.card:hover img, .card:focus-within img {
-  margin-top: -20rem;
-}
-
-.card:hover h3, .card:focus-within h3 {
-  padding: 8px 12px 0;
-} */
-
-#like-btn {
+#check-blank {
   display: flex;
   position: absolute;
   right: 0;
   width: 30px;
   height: 30px;
   overflow: hidden;
-  background: red;
-  border-radius: 50%;
+  background: hsla(210,16.7%,14.5%, 0.5);
+  box-shadow: inset 2px 2px 2px #212529;
+  // opacity: 50%;
+  border-radius: 5px;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   margin: 0.5rem;
   border: 1px solid hsla(210,16.7%,97.6%, 0.1);
-  i{
-    margin: 0;
-    padding-top: 1px;
-  }
-  &:hover{
-    i{
-      transform-origin: center;
-      animation: jump .75s linear alternate infinite;
-    }
-  }
 }
 </style>
