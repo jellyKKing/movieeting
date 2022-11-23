@@ -23,20 +23,11 @@ export default {
   methods : {
     getTest() {
       axios({
-        method: 'post',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        url: `${API_URL}/api/token/`,
-        data: {
-          username: this.res.data.serializer.username,
-          password: this.res.data.serializer.id,
-        }
+        method: 'get',
+        url: `${API_URL}/movies/test/`,
       })
         .then((res) => {
-          const token = res.data.access 
-          this.$cookies.set("jwt", token)
-          
+          console.log(res)          
         })
     },
     getTest2 () {

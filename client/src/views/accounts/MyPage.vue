@@ -28,16 +28,16 @@ export default {
   },
   computed : {
     username () {
-      return this.$store.state.loginData.username
+      return this.$cookies.get("username")
     },
     email () {
-      return this.$store.state.loginData.email
+      return this.$cookies.get("email")
     },
     gender () {
-      return this.$store.state.loginData.gender
+      return this.$cookies.get("gender")
     },
     imgUrl () {
-      return this.$store.state.loginData.imgUrl
+      return this.$cookies.get("imgUrl")
     },
   },
   mounted(){

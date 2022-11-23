@@ -3,10 +3,14 @@ from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .serializers import MovieSerializer, KeywordSerializer, CommentSerializer
-from .models import Movie, Keyword, Comment
-
-from django.contrib.auth import get_user_model
+from .serializers import MovieSerializer, KeywordSerializer
+from .models import Movie, Keyword
+import csv
+import pandas as pd
+import json
+import os
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
 
 
 
@@ -26,12 +30,7 @@ def detail(request, movie_id):
     if request.method == 'GET':
         movie = Movie.objects.get(id=movie_id)
         serializer = MovieSerializer(movie)
-
-        User = get_user_model()
-        for i in range(len(serializer.data['comments'])):
-            user = User.objects.filter(id=serializer.data['comments'][i]['user']).values()
-            serializer.data['comments'][i]['username'] = user[0]['username']
-            
+        # print(serializer.data)
         return Response(serializer.data)
 
 @api_view(['GET'])
@@ -75,15 +74,66 @@ def likes(request, movie_id):
             movie.like_users.add(request.user)
     movies = list(Movie.objects.filter(pk=movie_id).values())
     return Response(movies)
+
+
+@api_view(['GET'])
+def test(request):
+    movies_json_to_csv()
+    movies_similarity_genre_set()
+    print('💛💛💛💛💛💛💛💛')
+    print(request)
+    print('💛💛💛💛💛💛💛💛')
     
-@api_view(['POST'])
-def comment_create(request, movie_id):
-    print('###테스트')
-    # movie = Movie.objects.get(pk=movie_id)
-    movie = get_object_or_404(Movie, pk=movie_id)
-    user = request.user
-    # user = get_object_or_404(get_user_model(), pk=request.data['user_id'])
-    serializer = CommentSerializer(data=request.data)
-    if serializer.is_valid(raise_exception=True):
-        serializer.save(movie=movie, user=user)    # commit=False 대신에 외래키를 받기 위해서 article을 인자로 넣어준다.
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+def movies_similarity_genre_set():
+    csv_url = os.getcwd() + "\movies\\fixtures\movies.csv"
+    df = pd.read_csv(csv_url, encoding='utf-8')
+
+    counter_vector = CountVectorizer(ngram_range=(1,3))
+    c_vector_genres = counter_vector.fit_transform(df['genres'])
+    print('💖💖💖💖')
+    print(c_vector_genres.shape)
+    print('💖💖💖💖')
+
+    similarity_genre = cosine_similarity(c_vector_genres, c_vector_genres).argsort()[:, ::-1]
+    print(similarity_genre.shape)
+    print('💖💖💖💖')
+
+
+def movies_json_to_csv():
+    json_url = os.getcwd() + "\movies\\fixtures\movies.json"
+    df = pd.read_json(json_url, encoding='utf-8')
+    csv_url = os.getcwd() + "\movies\\fixtures\movies.csv"
+    # field names  
+    fields = ['title', 'original_title', 'release_date', 'vote_average', 'popularity', 'overview', 'backdrop_path', 'poster_path', 'genres', 'keywords', 'actors', 'directors', 'vote_average_naver', 'link_naver']  
+        
+    # data rows of csv file  
+    rows = []
+    print(len(df['fields']))
+    for i in range(1000):
+        data = []
+        data.append(df['fields'][i]['title']) #
+        data.append(df['fields'][i]['original_title']) #
+        data.append(df['fields'][i]['release_date']) #
+        data.append(df['fields'][i]['vote_average']) #
+        data.append(df['fields'][i]['popularity'])
+        data.append(df['fields'][i]['overview']) #
+        data.append(df['fields'][i]['backdrop_path']) #
+        data.append(df['fields'][i]['poster_path']) #
+        data.append(df['fields'][i]['genres']) 
+        data.append(df['fields'][i]['keywords']) #
+        data.append(df['fields'][i]['actors'])
+        data.append(df['fields'][i]['directors'])
+        if df['fields'][i].get('vote_average_naver', False):
+            data.append(df['fields'][i]['vote_average_naver'])
+            data.append(df['fields'][i]['link_naver'])
+        rows.append(data)
+
+    with open(csv_url, 'w', newline='', encoding="utf-8-sig") as f: 
+        # using csv.writer method from CSV package 
+        write = csv.writer(f) 
+        
+        write.writerow(fields) 
+        write.writerows(rows)
+
+                

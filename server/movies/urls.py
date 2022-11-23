@@ -7,5 +7,5 @@ urlpatterns = [
     path('popular/', views.popular),
     path('keyword/<int:keyword_id>/', views.keyword),
     path('<int:movie_id>/likes/',views.likes, name='likes'),
-    path('<int:movie_id>/comments/',views.comment_create,),
+    path('test/', views.test, name='test'),
 ]

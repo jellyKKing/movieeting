@@ -90,6 +90,9 @@ export default {
   data: function () {
     return {
       modalShow : false,
+      isLogin : false,
+      username : '',
+      imgUrl : '',
     }
   },
   components: {
@@ -161,6 +164,9 @@ export default {
             this.$cookies.set("imgUrl",  response.kakao_account.profile.profile_image_url)
             this.$cookies.set("gender",  response.kakao_account.gender)
             // this.$store.commit('LOGINDATA_IN', response)
+            this.isLogin = true
+            this.username = response.kakao_account.profile.nickname
+            this.imgUrl = response.kakao_account.profile.profile_image_url
           })
           .catch(function(error) {
             console.log(error)
@@ -169,19 +175,17 @@ export default {
     },
     logout (){
       this.$cookies.set("jwt", '')
-      this.$store.commit('ISLOGIN_CHANGE')
+      this.$cookies.set("username", '')
+      this.$cookies.set("email", '')
+      this.$cookies.set("imgUrl", '')
+      this.$cookies.set("gender", '')
+      this.isLogin = false
+      this.username = ''
+      this.imgUrl = ''
+      // this.$store.commit('ISLOGIN_CHANGE')
     }
   },
   computed : {
-    isLogin () {
-      return this.$cookies.get('jwt')? true : false
-    },
-    username () {
-      return this.$cookies.get('username')
-    },
-    imgUrl () {
-      return this.$cookies.get('imgUrl')
-    },
   }
 }
 </script>

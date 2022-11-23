@@ -33,9 +33,6 @@ class Movie(models.Model):
     vote_average_naver = models.FloatField(null=True, blank=True)
     link_naver = models.TextField(null=True, blank=True)
 
-class Comment(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name = 'comments')
-    movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name = 'comments')
-    content = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+
+
+
