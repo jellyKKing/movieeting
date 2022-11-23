@@ -1,15 +1,30 @@
 <template>
   <div>
-    <h1>dafsdfa</h1>
+    <h1>Welcome Survey</h1>
+    <div id="surveyBox">
+      <MovieListSurvey/>
+    </div>
   </div>
 </template>
 
 <script>
+import MovieListSurvey from '@/components/MovieListSurvey'
+
 export default {
-  name: 'Survey'
+  name: 'Survey',
+  components: {
+    MovieListSurvey,
+  },
+  method: {
+
+  },
+  created() {
+  },
 }
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+#surveyBox {
+  height: 800px;
+}
 </style>

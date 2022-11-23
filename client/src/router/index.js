@@ -44,7 +44,7 @@ const routes = [
     component: MyPage,
   },
   {
-    path: 'movies/survey',
+    path: '/movies/survey',
     name: 'Survey',
     component: Survey,
   },

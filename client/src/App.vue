@@ -183,7 +183,15 @@ export default {
     imgUrl () {
       return this.$cookies.get('imgUrl')
     },
-  }
+  },
+  updated() {
+    const headerOverlay = document.getElementById('header-overlay')
+    if (this.$route.name === 'Survey') {
+      headerOverlay.setAttribute('style', 'margin-bottom: 100px')
+    } else {
+      headerOverlay.setAttribute('style', 'margin-bottom: 350px')
+    }
+  },
 }
 </script>
 
