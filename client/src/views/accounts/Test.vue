@@ -4,12 +4,16 @@
     <button @click="getTest">확인</button>
     <button @click="getTest2">확인2</button>
     <br>
-    {{ res }}
-
+    
+    <div id="surveyBox">
+      <RecommendedMovieItem/>
+    </div>
   </div>
 </template>
 
 <script>
+import RecommendedMovieItem from '@/components/RecommendedMovieItem'
+
 import axios from 'axios'
 const API_URL = 'http://127.0.0.1:8000'
 
@@ -20,14 +24,25 @@ export default {
       
     }
   },
+  components:{
+    RecommendedMovieItem,
+  },
   methods : {
     getTest() {
+      console.log('여기 ss')
+      const token = this.$cookies.get('jwt')
       axios({
-        method: 'get',
+        method: 'post',
         url: `${API_URL}/movies/test/`,
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+        data:{
+          'pk' : 436270
+        }
       })
         .then((res) => {
-          console.log(res)          
+          console.log(res.data)
         })
     },
     getTest2 () {
