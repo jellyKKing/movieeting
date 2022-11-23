@@ -57,7 +57,8 @@
       <footer>
         <div class="container d-flex flex-row">
           <div class="d-flex align-items-center mt-3 fw-bold opacity-50">
-            <span>팀명</span>
+            <p>팀명</p>
+            <router-link class="me-auto" :to="{ name: 'Survey' }" style="text-decoration:none;">서베이 테스트</router-link>
           </div>
           <div class="vstack gap-3 mt-3">
             <div class="hstack gap-3 opacity-50 d-flex w-100 justify-content-end" style="width: 150px;">
@@ -186,7 +187,16 @@ export default {
     }
   },
   computed : {
-  }
+
+  },
+  updated() {
+    const headerOverlay = document.getElementById('header-overlay')
+    if (this.$route.name === 'Survey') {
+      headerOverlay.setAttribute('style', 'margin-bottom: 100px')
+    } else {
+      headerOverlay.setAttribute('style', 'margin-bottom: 350px')
+    }
+  },
 }
 </script>
 

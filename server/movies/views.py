@@ -12,8 +12,6 @@ import os
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-
-
 # Create your views here.
 @api_view(['GET', 'POST'])
 def index(request):
@@ -38,6 +36,13 @@ def popular(request):
     movie = Movie.objects.order_by('-popularity')[:11]
     serializer = MovieSerializer(movie, many=True)
     return Response(serializer.data)
+
+@api_view(['GET'])
+def random(request):
+    movie = choices(Movie.objects.all(), k=20)
+    serializer = MovieSerializer(movie, many=True)
+    print(serializer)
+    return Response(serializer.data)    
 
 @api_view(['GET'])
 def keyword(request, keyword_id):
@@ -75,6 +80,33 @@ def likes(request, movie_id):
     movies = list(Movie.objects.filter(pk=movie_id).values())
     return Response(movies)
 
+@api_view(['DELETE', 'PUT'])
+def comment_edit(request, comment_id):
+    print('@@@@@@@@@@@@@들어왔당', comment_id)
+    comment = get_object_or_404(Comment, pk=comment_id)
+    if request.method == 'DELETE':
+        comment.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)  # API는 반드시 정확한 상태 코드를 전달해주어야 한다.
+    elif request.method == 'PUT':
+        serializer = CommentSerializer(comment, data=request.data)  # POST와 article 인스턴스만 다르고 동일.
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data)
+
+
+
+
+@api_view(['POST'])
+def comment_create(request, movie_id):
+    print('###테스트')
+    # movie = Movie.objects.get(pk=movie_id)
+    movie = get_object_or_404(Movie, pk=movie_id)
+    user = request.user
+    # user = get_object_or_404(get_user_model(), pk=request.data['user_id'])
+    serializer = CommentSerializer(data=request.data)
+    if serializer.is_valid(raise_exception=True):
+        serializer.save(movie=movie, user=user)    # commit=False 대신에 외래키를 받기 위해서 article을 인자로 넣어준다.
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 @api_view(['GET'])
 def test(request):
@@ -135,5 +167,3 @@ def movies_json_to_csv():
         
         write.writerow(fields) 
         write.writerows(rows)
-
-                
