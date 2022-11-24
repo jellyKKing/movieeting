@@ -6,10 +6,15 @@
           v-for="movie in movies"
           :key=movie.id
         >
-          <MovieListSurveyItem :movie=movie />
+          <MovieListSurveyItem 
+          :movie=movie 
+          @click.native="cardSelect"
+          />
         </div>
       </div>
     </div>
+    
+    <button @click="selectDone">확인</button>
   </div>
 </template>
 
@@ -43,6 +48,14 @@ export default {
         .catch(err => {
           console.log(err)
         })
+    },
+    selectDone () {
+      
+    },
+    cardSelect(event) {
+      const selectedCard = event.currentTarget
+      selectedCard.classList.toggle('selected')
+      // 선택 / 선택 취소 에밋으로 올려보내주기 위에서 종합할 것.
     },
   },
   mounted() {

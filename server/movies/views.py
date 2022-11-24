@@ -58,16 +58,10 @@ def keyword(request, keyword_id):
     serializer = KeywordSerializer(keyword)
     return Response(serializer.data)
 
-def findSimilarity():
-    pass
-
 # 좋아요
 @api_view(['POST'])
 def likes(request, movie_id):
     print('좋아요 django 입성')
-    print(movie_id)
-    print('')
-    print(request.user)
     # 로그인한 사람만 좋아요~
     if request.user.is_authenticated:
         print('유저 들어옴')
@@ -110,7 +104,7 @@ def comment_create(request, movie_id):
     # user = get_object_or_404(get_user_model(), pk=request.data['user_id'])
     serializer = CommentSerializer(data=request.data)
     if serializer.is_valid(raise_exception=True):
-        serializer.save(movie=movie, user=user)    # commit=False 대신에 외래키를 받기 위해서 article을 인자로 넣어준다.
+        serializer.save(movie=movie, user=user)  
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 @api_view(['POST'])
@@ -120,7 +114,6 @@ def test(request):
 
     movie_id_lst = []
     for x in comment:
-        print(x.movie_id)
         movie_id_lst.append(x.movie_id)
 
     movie_id_lst = list(set(movie_id_lst))
@@ -141,15 +134,8 @@ def test(request):
     keywords = list(set(keywords))
     user_row.append(genres)
     user_row.append(keywords)
-    user_row.append([])
-    user_row.append([])
-    user_row.append(1050000)
-    user_row.append('1050000')
-    print(user_row)
+    user_row = user_row + [[],[],1050000,'1050000']
     
-    
-    print('eljkdjslfjkdsjflkeowifjiqioejㅁㅇ니러ㅏ미;ㄷ ㅓㅣ', len(movie_id_lst))
-    print(comment.values())
     # csv 로 만들 때 user 가 좋아한 장르들 다 가져와서 csv에 열 하나 추가하는 거야.
     # 어떻게 하냐면 가장 최근에 5점을 준 10개의 영화를 가져와서
     # csv 에 열 하나 추가
@@ -159,15 +145,11 @@ def test(request):
     # print(target_id)
     print('💛💛💛💛💛💛💛💛')
     result = movies_similarity_genre_set()
-    print('남는 컴퓨터에!!!', result)
-    print(movie_id_lst)
 
     movie = Movie.objects.filter(id__in=result)
     serializer = MovieSerializer(movie, many=True)
 
     return Response(serializer.data)
-
-
 
 def movies_similarity_genre_set(top=30):
     csv_url = os.getcwd() + "\movies\\fixtures\movies.csv"
@@ -179,20 +161,12 @@ def movies_similarity_genre_set(top=30):
     # c_vector_genres = counter_vector.fit_transform(df['genres']+df['keywords'])
     c_vector_genres = counter_vector.fit_transform(df['genres'])
     c_vector_keywords = counter_vector.fit_transform(df['keywords'])
-    print('💖💖💖💖')
-    print(c_vector_genres.shape)
-    print('💖💖💖💖')
 
     similarity_genre = cosine_similarity(c_vector_genres, c_vector_genres).argsort()[:, ::-1]
     similarity_keyword = cosine_similarity(c_vector_keywords, c_vector_keywords).argsort()[:, ::-1]
-    print(similarity_genre.shape)
-    print(similarity_genre)
-    print('💖💖💖💖')
 
     sim_index = similarity_genre[target_movie_index, :top].reshape(-1)
     sim_index2 = similarity_keyword[target_movie_index, :top].reshape(-1)
-    print(sim_index)
-    print(type(sim_index))
 
     sim_index = sim_index.tolist()
     sim_index2 = sim_index2.tolist()
@@ -204,7 +178,6 @@ def movies_similarity_genre_set(top=30):
     # if target_movie_index in sim_index2:
     #     sim_index2.remove(target_movie_index)
 
-    print(sim_index)
     # result = df.iloc[sim_index].sort_values('score', ascending=False)[:10]
     result = df.iloc[sim_index].sort_values('vote_average', ascending=False)[:10]['id'].tolist()
     result2 = df.iloc[sim_index2].sort_values('vote_average', ascending=False)[:10]['id'].tolist()
@@ -266,6 +239,3 @@ def movies_json_to_csv(user_row):
             
             write.writerow(fields)
             write.writerows(rows)
-
-# def survey():
-#     pass

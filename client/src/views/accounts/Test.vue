@@ -1,10 +1,5 @@
 <template>
   <div>
-    <h1>확인용</h1>
-    <button @click="getTest">확인</button>
-    <button @click="getTest2">확인2</button>
-    <br>
-    
     <div id="surveyBox">
       <RecommendedMovieItem/>
     </div>

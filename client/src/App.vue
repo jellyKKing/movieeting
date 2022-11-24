@@ -127,7 +127,12 @@ export default {
       })
         .then((response)=>{
           console.log('로그인 성공띠')
-          this.loginToken(response)
+          if (response.status == 201){
+            this.$router.push({ name: 'SurveyWelcome' })
+          }else{
+            this.loginToken(response)
+          }
+          
         })
     },
     onFailure (data) {
@@ -160,6 +165,7 @@ export default {
           })
           .then((response) => {
             console.log(response)
+            this.$cookies.set("userId",  response.id)
             this.$cookies.set("username",  response.kakao_account.profile.nickname)
             this.$cookies.set("email",  response.kakao_account.email)
             this.$cookies.set("imgUrl",  response.kakao_account.profile.profile_image_url)
