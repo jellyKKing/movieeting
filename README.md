@@ -73,7 +73,7 @@ git reset --hard <commit_id> 로 다시 복원
 - 전체적인 CSS 레이아웃 작성
 ![layout](./IMG/layout.PNG)
 - 키워드 기반 영화 파도타기
-![keyword](./IMG/keyword%20(1).PNG)
+![keyword](./IMG/keyword.PNG)
 ---
 ### 11.22(화)
 - 추천 알고리즘 작성
