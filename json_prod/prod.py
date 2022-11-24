@@ -127,12 +127,20 @@ def prod_movie_json():
                         continue
                     keywords_index.add(keyword['id'])
 
+                    translated = ''
+                    while translated=='':
+                        try:
+                            translated = translator.translate(keyword['name'], src='en', dest='ko').text
+                        except:
+                            print('error: 번역 실패')
+                            time.sleep(1)
+                            pass
+
                     keyword_fields = {
                         'id' : keyword['id'],
-                        # 'name' : papagoTrans(keyword['name']),
-                        'name' : translator.translate(keyword['name'], src='en', dest='ko').text,
+                        'name' : translated,
                     }
-                    time.sleep(2)
+
                     keyword_data = {
                         'pk': keyword['id'],
                         'model': 'movies.keyword',
