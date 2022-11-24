@@ -41,6 +41,9 @@
             </div>
           </div>
         </div>
+        <div class="d-flex flex-column w-100 justify-content-end align-items-end mt-2">
+          <a href="https://kauth.kakao.com/oauth/logout?client_id=19909bfbfb8745d6172a4ab6b541c7e8&logout_redirect_uri=http://localhost:8080/movies" @click="logout">Logout</a>
+        </div>
       </div>
       <!-- right -->
       <div class="col-sm-12 col-md">
@@ -74,7 +77,18 @@ export default {
   methods : {
     getTest2 () {
       
-    }
+    },
+    logout (){
+      this.$cookies.set("jwt", '')
+      this.$cookies.set("username", '')
+      this.$cookies.set("email", '')
+      this.$cookies.set("imgUrl", '')
+      this.$cookies.set("gender", '')
+      this.isLogin = false
+      this.username = ''
+      this.imgUrl = ''
+      // this.$store.commit('ISLOGIN_CHANGE')
+    },    
   },
   computed : {
     username () {

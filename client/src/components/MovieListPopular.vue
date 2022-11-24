@@ -4,8 +4,8 @@
       <h1><i class="bi bi-award-fill text-primary"></i> Top 10 인기영화</h1>
     </div>
     <swiper ref="filterSwiper" :options="swiperOption" role="tablist">
-      <swiper-slide role="tab" v-for="movie in movies" :key=movie.id >
-        <MovieListItem :movie=movie @change="change" class="swiper-lazy"/>
+      <swiper-slide role="tab" v-for="(movie, index) in movies" :key=movie.id >
+        <MovieListPopularItem :index=index :movie=movie @change="change" class="swiper-lazy"/>
       </swiper-slide>
       <div class="swiper-button-prev" slot="button-prev">
         <i class="bi bi-caret-left-fill"></i>
@@ -21,7 +21,7 @@
 import axios from 'axios'
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
 
-import MovieListItem from '@/components/MovieListItem'
+import MovieListPopularItem from '@/components/MovieListPopularItem'
 
 const API_URL = 'http://127.0.0.1:8000'
 
@@ -50,7 +50,7 @@ export default {
     }
   },
   components: {
-    MovieListItem,
+    MovieListPopularItem,
     swiper,
     swiperSlide,
   },

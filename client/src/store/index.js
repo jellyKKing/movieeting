@@ -12,6 +12,8 @@ export default new Vuex.Store({
       gender : '',
     },
     isLogin : false,
+    // modal visibility
+    ReviewModal: false,
   },
   getters: {
   },
