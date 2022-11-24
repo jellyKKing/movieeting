@@ -122,6 +122,7 @@ def test(request):
         print(x.movie_id)
         movie_id_lst.append(x.movie_id)
 
+    movie_id_lst = list(set(movie_id_lst))
     movies = Movie.objects.filter(id__in=movie_id_lst)
     
     dt_now = datetime.datetime.now()
@@ -157,6 +158,8 @@ def test(request):
     # print(target_id)
     print('💛💛💛💛💛💛💛💛')
     result = movies_similarity_genre_set()
+    print('남는 컴퓨터에!!!', result)
+    print(movie_id_lst)
 
     movie = Movie.objects.filter(id__in=result)
     serializer = MovieSerializer(movie, many=True)
@@ -168,11 +171,11 @@ def test(request):
 def movies_similarity_genre_set(top=30):
     csv_url = os.getcwd() + "\movies\\fixtures\movies.csv"
     df = pd.read_csv(csv_url, encoding='utf-8')
-    print('조승현 사랑해',max(df['id']))
 
     target_movie_index = 0
 
     counter_vector = CountVectorizer(ngram_range=(1,3))
+    # c_vector_genres = counter_vector.fit_transform(df['genres']+df['keywords'])
     c_vector_genres = counter_vector.fit_transform(df['genres'])
     c_vector_keywords = counter_vector.fit_transform(df['keywords'])
     print('💖💖💖💖')
@@ -193,11 +196,12 @@ def movies_similarity_genre_set(top=30):
     sim_index = sim_index.tolist()
     sim_index2 = sim_index2.tolist()
 
-    if target_movie_index in sim_index:
-        sim_index.remove(target_movie_index)
+    # if target_movie_index in sim_index:
+    sim_index.remove(0)
+    sim_index2.remove(0)
 
-    if target_movie_index in sim_index2:
-        sim_index2.remove(target_movie_index)
+    # if target_movie_index in sim_index2:
+    #     sim_index2.remove(target_movie_index)
 
     print(sim_index)
     # result = df.iloc[sim_index].sort_values('score', ascending=False)[:10]
@@ -262,5 +266,5 @@ def movies_json_to_csv(user_row):
             write.writerow(fields)
             write.writerows(rows)
 
-def survey():
-    pass
+# def survey():
+#     pass
