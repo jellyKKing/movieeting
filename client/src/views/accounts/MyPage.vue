@@ -51,15 +51,17 @@
       <br>
       <div class="col-sm-12 col-md">
         <div id="title" class="d-flex" >
-          <h3>회원님과 가장 유사한 추천 회원✨</h3>
+          <div class="hstack gap-3 fs-3">
+            <i class="bi bi-person-hearts"></i>
+            <p>회원님과 가장 유사한 추천 회원</p>
+          </div>
         </div>
-        <br>
-        <hr>
-        <br>
         <!-- {{ similarUserList }} -->
-        <div v-for="u in similarUserList" :key=u.id @click="goUser(u)">
-          <img :src="u.imgUrl" alt="profile_thumb" width="40px;">
-          <p>{{ u.username }}</p>
+        <div class="d-flex p-3" v-for="u in similarUserList" :key=u.id @click="goUser(u)">
+          <div class="d-flex flex-column">
+            <img id="profilePic" :src="u.imgUrl" alt="profile_thumb" width="50px;">
+            <p>{{ u.username }}</p>
+          </div>
         </div>
         <br>
         <!--좋아요, 내가 쓴 리뷰, 써클, 메신저, 칭구-->
@@ -187,6 +189,18 @@ export default {
 *{
   margin:0;
   padding:0;
+}
+
+#title {
+  padding: 0;
+  margin: 0;
+  border-bottom: 1px solid hsla(210,16.7%,97.6%, 0.1);
+}
+
+#profilePic{
+  border-radius: 50%;
+  border: 1px solid hsla(210,16.7%,97.6%, 0.1);
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 20px 30px;
 }
 
 #left {
