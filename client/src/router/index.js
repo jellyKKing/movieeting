@@ -6,6 +6,7 @@ import MovieDetail from '@/views/movies/MovieDetail'
 // import KeywordDetail from '@/views/movies/KeywordDetail'
 import SurveyWelcome from '@/views/movies/SurveyWelcome'
 
+import UserPage from '@/views/accounts/UserPage'
 import Test from '@/views/accounts/Test'
 import MyPage from '@/views/accounts/MyPage'
 
@@ -37,6 +38,11 @@ const routes = [
     path: '/accounts/mypage',
     name: 'MyPage',
     component: MyPage,
+  },
+  {
+    path: '/accounts/userpage',
+    name: 'UserPage',
+    component: UserPage,
   },
   {
     path: '/movies/survey',

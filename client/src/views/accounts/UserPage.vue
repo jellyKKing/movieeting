@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    ddkjflkjdljsk
     <div class="row position-relative">
       <!-- left -->
       <div id="left" class="d-flex flex-column col-sm-12 col-md-6 col-lg-5 col-xl-4 col-xxl-3">
@@ -62,6 +63,7 @@
 <script>
 import axios from 'axios'
 const API_URL = 'http://127.0.0.1:8000'
+const USER_ID = '2527552786'
 
 export default {
   name: 'Test',
@@ -83,23 +85,19 @@ export default {
   computed : {
   },
   mounted(){
-    const token = this.$cookies.get('jwt')
-      axios({
-        method: 'post',
-        url: `${API_URL}/accounts/mypage/`,
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
+    axios({
+      method: 'post',
+      url: `${API_URL}/accounts/user/${USER_ID}/`,
+    })
+      .then((res) => {
+        console.log(res.data)
+        this.username = res.data.username
+        this.email = res.data.email
+        this.gender = res.data.gender
+        this.imgUrl = res.data.imgUrl
+        this.user_like_movies = res.data.user_like_movies
+        this.user_created_comments = res.data.user_created_comments
       })
-        .then((res) => {
-          console.log(res.data)
-          this.username = res.data.username
-          this.email = res.data.email
-          this.gender = res.data.gender
-          this.user_like_movies = res.data.user_like_movies
-          this.user_like_movies = res.data.user_like_movies
-          this.user_created_comments = res.data.user_created_comments
-        })
   }
 }
 </script>

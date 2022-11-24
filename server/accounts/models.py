@@ -6,4 +6,6 @@ class User(AbstractUser):
     date_joined = models.DateTimeField(auto_now_add=True)
     is_login = models.IntegerField(default=0)
     email = models.CharField(max_length=128)
+    gender = models.CharField(max_length=128)
+    imgUrl = models.TextField()
 
