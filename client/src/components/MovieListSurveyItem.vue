@@ -1,5 +1,5 @@
 <template>
-  <div class="card-wrapper" @mouseover='changeHeaderBg' @click="cardSelect">
+  <div class="card-wrapper" ref="selectVal" @mouseover='changeHeaderBg'>
     <div class="poster-img-box">
       <img class="poster-img"
         :src="`https://image.tmdb.org/t/p/original${movie.poster_path}`"
@@ -11,9 +11,8 @@
       <p class="poster-movie-title">{{ movie.original_title }}</p>
       <p class="poster-movie-subtitle">{{ movie.title }}</p>
     </div>
-  </div>
 
-  
+  </div>
 </template>
 
 <script>
@@ -36,11 +35,7 @@ export default {
       const backdrop = `url(https://image.tmdb.org/t/p/original${this.movie.backdrop_path})`
       headerBg.style.backgroundImage = backdrop
     },
-    cardSelect(event) {
-      const selectedCard = event.currentTarget
-      selectedCard.classList.toggle('selected')
-      // 선택 / 선택 취소 에밋으로 올려보내주기 위에서 종합할 것.
-    }
+    
   },
   computed : {
     isLogin () {

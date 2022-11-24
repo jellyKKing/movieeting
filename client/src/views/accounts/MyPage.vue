@@ -51,6 +51,7 @@
         여긴 내용<br>
         -- 좋아요 한 영화들 -- <br>
         {{ user_like_movies }} <br>
+
         <br>
         -- 사용자가 쓴 리뷰들 -- <br>
         {{ user_created_comments }} 
@@ -73,6 +74,8 @@ export default {
       user_like_movies : null,
       user_created_comments : null,
     }
+  },
+  components : {
   },
   methods : {
     getTest2 () {

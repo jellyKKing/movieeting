@@ -38,7 +38,7 @@ def kakaoLoginView(request):
 
     # 없으면 회원가입 진행
     print('없음 -> 회원가입 진행')
-    
+    print(kakao_response)
     user_data = {
         'id':kakao_response['id'],
         'username':kakao_response['properties']['nickname'],
@@ -46,10 +46,13 @@ def kakaoLoginView(request):
         'password':str(kakao_response['id']),
         'gender':kakao_response['kakao_account']['gender'],
         'imgUrl':kakao_response['kakao_account']['profile']['profile_image_url'],
+        # 'followings' : [],
     }
     
     serializer = UserSerializer(data=user_data)
-
+    print()
+    print(serializer)
+    print()
     if serializer.is_valid(raise_exception=True):
         users = serializer.save()
         password = str(kakao_response['id'])
@@ -109,3 +112,24 @@ def userpage(request, user_id):
     serializer.data['user_created_comments'] = comments
 
     return Response(serializer.data)
+
+
+# @api_view(['POST'])
+# def follow(request, user_pk):
+#     if request.user.is_authenticated:
+#         # User = get_user_model()
+#         me = request.user
+#         you = User.objects.get(pk=user_pk)
+#         # 자기 자신 팔로우 금지
+#         if me != you:
+#             # 내(request.user)가 그 사람의 팔로워 목록에 있다면
+#             # 1. if me in you.followers.all():
+#             # 2. exists() : DTL에서는 괄호를 쓸 수 없어서 이건 html에서는 못쓴다.
+#             if you.followers.filter(pk=me.pk).exists():
+#             # 언팔로우
+#                 you.followers.remove(me)
+#             else:
+#             # 팔로우
+#                 you.followers.add(me)
+#         return redirect('accounts:profile', you.username)
+#     return redirect('accounts:login')

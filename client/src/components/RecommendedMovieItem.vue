@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h1>RecommendedMovieItem</h1>
     <!-- {{ movies }} -->
     <swiper style="width: 100%; height: 50rem" ref="filterSwiper" :options="swiperOption" role="tablist">
       <swiper-slide role="tab" v-for="movie in movies" :key=movie.id>

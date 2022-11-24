@@ -45,11 +45,11 @@
               <i v-show="comment.rating===0" id="review-btn" class="bi bi-hand-thumbs-down-fill"></i>
             </div>
             <!-- delete -->
-            <div class="col" @click="deleteReview(comment)">
+            <div class="col" v-if="comment.user==userId" @click="deleteReview(comment)">
               <i class="bi bi-x-lg"></i>
             </div>
             <!-- edit -->
-            <div class="col" @click="editReview(comment)">
+            <div class="col" v-if="comment.user==userId" @click="editReview(comment)">
               <i class="bi bi-pencil-square"></i>
             </div>
           </div>
@@ -62,7 +62,7 @@
           <div class="row pb-2" style="border-bottom: 1px solid hsla(210,16.7%,97.6%, 0.1);">
             <div class="col">
               {{ comment.id }}
-              {{comment.content}} / 테스트 재미없어요 보지 마세요~
+              {{comment.content}}
             </div>
           </div>
         </div>
@@ -84,6 +84,7 @@ export default {
     return {
       reviewInput: '',
       rating: null,
+      
     }
   },
   methods: {
@@ -120,8 +121,6 @@ export default {
     },
     deleteReview(comment) {
       const token = this.$cookies.get('jwt')
-      console.log(this.movie.comments)
-      console.log(typeof(this.movie.comments))
       // const idx = this.movie.comments.findIndex(function(item) {return item.id === comment.id}) // findIndex = find + indexOf
       const idx = this.movie.comments.indexOf(comment) // findIndex = find + indexOf
       if (idx > -1) this.movie.comments.splice(idx, 1)
@@ -142,7 +141,12 @@ export default {
   computed: {
     reverseComments() {
       return this.movie.comments.slice().reverse()
-    }  
+    } ,
+    userId () {
+      return this.$cookies.get('userId')
+    }
+  },
+  mounted () {
   }
 }
 </script>
