@@ -4,7 +4,7 @@
     <!-- {{ movies }} -->
     <swiper style="width: 100%; height: 50rem" ref="filterSwiper" :options="swiperOption" role="tablist">
       <swiper-slide role="tab" v-for="movie in movies" :key=movie.id>
-        <MovieListItemForSurvey :movie=movie class="swiper-lazy"/>
+        <MovieListSurveyItem :movie=movie class="swiper-lazy"/>
       </swiper-slide>
       <div class="swiper-scrollbar" slot="scrollbar"></div>
     </swiper>
@@ -15,7 +15,7 @@
 import axios from 'axios'
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
 
-import MovieListItemForSurvey from '@/components/MovieListItemForSurvey'
+import MovieListSurveyItem from '@/components/MovieListSurveyItem'
 
 const API_URL = 'http://127.0.0.1:8000'
 
@@ -24,7 +24,7 @@ export default {
   components: {
     swiper,
     swiperSlide,
-    MovieListItemForSurvey,
+    MovieListSurveyItem,
   },
   data() {
     return {
@@ -69,9 +69,6 @@ export default {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
-        data:{
-          'pk' : 436270
-        }
       })
         .then((res) => {
           console.log(res.data)

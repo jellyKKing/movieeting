@@ -69,6 +69,10 @@ export default {
     return{
       user_like_movies : null,
       user_created_comments : null,
+      username : null,
+      email : null,
+      gender : null,
+      imgUrl : null,
     }
   },
   methods : {
@@ -77,18 +81,6 @@ export default {
     }
   },
   computed : {
-    username () {
-      return this.$cookies.get("username")
-    },
-    email () {
-      return this.$cookies.get("email")
-    },
-    gender () {
-      return this.$cookies.get("gender")
-    },
-    imgUrl () {
-      return this.$cookies.get("imgUrl")
-    },
   },
   mounted(){
     const token = this.$cookies.get('jwt')
@@ -101,6 +93,10 @@ export default {
       })
         .then((res) => {
           console.log(res.data)
+          this.username = res.data.username
+          this.email = res.data.email
+          this.gender = res.data.gender
+          this.user_like_movies = res.data.user_like_movies
           this.user_like_movies = res.data.user_like_movies
           this.user_created_comments = res.data.user_created_comments
         })
