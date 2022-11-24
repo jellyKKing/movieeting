@@ -17,15 +17,28 @@
           </div>
           <p class="opacity-50">{{ email }}</p>
         </div>
+        <br>
         <div id="profile-card" class="row">
           <div class="col">
-            <i class="bi bi-heart-fill"></i>
+            <div class="vstack gap-2 m-2">
+              <i class="bi bi-heart-fill"></i>
+              <hr>
+              <p>0</p>
+            </div>
           </div>
           <div class="col">
-            <i class="bi bi-pencil-fill"></i>
+            <div class="vstack gap-2 m-2">
+              <i class="bi bi-pencil-fill"></i>
+              <hr>
+              <p>0</p>
+            </div>
           </div>
           <div class="col">
-            <i class="bi bi-person-fill"></i>
+            <div class="vstack gap-2 m-2">
+              <i class="bi bi-person-fill" style="scale: 1.2"></i>
+              <hr>
+              <p>0</p>
+            </div>
           </div>
         </div>
       </div>

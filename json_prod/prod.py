@@ -13,9 +13,9 @@ from googletrans import Translator
 translator = Translator()
 import time
 
-
 TMDB_KEY = "5f026928c69d847d1b311cb08f6c4291"
 NUM_OF_MOVIES = 1000
+print('시작', NUM_OF_MOVIES)
 
 # with open('./movie_db.json', 'w', encoding='UTF-8') as f:
 #     response = requests.get(f'https://api.themoviedb.org/3/movie/popular?api_key={TMDB_KEY}&language=ko-KR&page=1').text
@@ -79,6 +79,9 @@ def prod_movie_json():
             if movie.get('overview', '') == '':
                 print('error: 내용 없음')
                 continue
+            if movie.get('original_language', '') == 'zh-CN':
+                print('skip: 중국영화')
+                continue
 
             only_latest = datetime.strptime(movie['release_date'], '%Y-%m-%d') > datetime.strptime('2012-11-10', '%Y-%m-%d')
             if movie.get('vote_average', 0) > 5 and movie.get('backdrop_path', False) and movie.get('poster_path', False) and only_latest and isKorean(movie['title']):
@@ -88,12 +91,25 @@ def prod_movie_json():
                     'original_title': movie['original_title'],
                     'release_date': movie['release_date'],
                     'vote_average': movie['vote_average'],
+                    'vote_count' : movie['vote_count'],
                     'popularity' : movie['popularity'],
                     'overview': movie['overview'],
                     'backdrop_path': movie['backdrop_path'],
                     'poster_path': movie['poster_path'],
                     'genres': movie['genre_ids'],
                 }
+
+                # add video
+                response = requests.get(f'https://api.themoviedb.org/3/movie/{movie["id"]}/videos?api_key={TMDB_KEY}&language=ko-KR')
+                if response:
+                    response = response.json()
+                    videos = response['results']
+                    youtube = []
+                    for each in videos:
+                        if each['site'] == 'YouTube' and each['official'] and each['type'] == 'Trailer':
+                            youtube.append(each["key"])
+                    if len(youtube):
+                        fields['youtube'] = youtube[0]
 
                 # add keyword
                 response = requests.get(f'https://api.themoviedb.org/3/movie/{movie["id"]}/keywords?api_key={TMDB_KEY}').json()
@@ -111,12 +127,20 @@ def prod_movie_json():
                         continue
                     keywords_index.add(keyword['id'])
 
+                    translated = ''
+                    while translated=='':
+                        try:
+                            translated = translator.translate(keyword['name'], src='en', dest='ko').text
+                        except:
+                            print('error: 번역 실패')
+                            time.sleep(1)
+                            pass
+
                     keyword_fields = {
                         'id' : keyword['id'],
-                        # 'name' : papagoTrans(keyword['name']),
-                        'name' : translator.translate(keyword['name'], src='en', dest='ko').text,
+                        'name' : translated,
                     }
-                    time.sleep(2)
+
                     keyword_data = {
                         'pk': keyword['id'],
                         'model': 'movies.keyword',
@@ -234,5 +258,5 @@ def prod_genre_json():
 
 
 
-# prod_movie_json()
-prod_genre_json()
+prod_movie_json()
+# prod_genre_json()

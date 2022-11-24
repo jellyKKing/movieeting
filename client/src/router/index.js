@@ -4,7 +4,7 @@ import VueRouter from 'vue-router'
 import Home from '@/views/movies/Home'
 import MovieDetail from '@/views/movies/MovieDetail'
 // import KeywordDetail from '@/views/movies/KeywordDetail'
-import Survey from '@/views/movies/Survey'
+import SurveyWelcome from '@/views/movies/SurveyWelcome'
 
 import Test from '@/views/accounts/Test'
 import MyPage from '@/views/accounts/MyPage'
@@ -40,8 +40,8 @@ const routes = [
   },
   {
     path: '/movies/survey',
-    name: 'Survey',
-    component: Survey,
+    name: 'SurveyWelcome',
+    component: SurveyWelcome,
   },
   {
     path: '/movies/:movie_id',

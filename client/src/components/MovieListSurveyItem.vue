@@ -18,7 +18,7 @@
 
 <script>
 export default {
-  name: 'MovieListItemForSurvey',
+  name: 'MovieListSurveyItem',
   data () {
     return {
       modalMsg : '',
