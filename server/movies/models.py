@@ -32,6 +32,8 @@ class Movie(models.Model):
     directors = models.ManyToManyField(Director, related_name='movie_directors')
     vote_average_naver = models.FloatField(null=True, blank=True)
     link_naver = models.TextField(null=True, blank=True)
+    youtube = models.CharField(max_length=128, null=True, blank=True)
+    vote_count = models.IntegerField()
 
 class Comment(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name = 'comments')

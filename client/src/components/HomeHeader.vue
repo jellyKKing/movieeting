@@ -6,8 +6,9 @@
       <p>가 추천하는</p>
     </div>
     <div class="hstack gap-1" style="font-size: 25px;">
-      <h1>{{ username }}</h1>
-      <h1>님의 취향 맞춤 영화</h1>
+      <h1 v-show="username">{{ username }}님</h1>
+      <h1 v-show="!username">당신</h1>
+      <h1>의 취향 맞춤 영화</h1>
     </div>
     <br>
     <router-link

@@ -4,10 +4,10 @@
       <div id="review-form" class="col d-flex flex-row">
         <!-- create review -->
         <div id="review-btn" @click="setRating(5)">
-          <i id="review-btn" class="bi bi-hand-thumbs-up-fill"></i>
+          <i class="bi bi-hand-thumbs-up-fill"></i>
         </div>
         <div id="review-btn" @click="setRating(0)">
-          <i id="review-btn" class="bi bi-hand-thumbs-down-fill"></i>
+          <i class="bi bi-hand-thumbs-down-fill"></i>
         </div>
         <input type="text"
           v-model="reviewInput"
@@ -24,41 +24,77 @@
           v-for="comment in reverseComments"
           :key="comment.id"
         >
-          <div id="review-prof" class="row p-0 pb-2 mb-2">
-            <div class="col">
-              <div class="hstack gap-3">
-                <div id="profile-pic" class="p-0">
-                  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/1200px-Cat03.jpg">
+          <div id="review-prof" class="d-flex justify-content-between p-0 pb-2 mb-2">
+            <div class="hstack gap-3">
+              <div id="profile-pic" class="p-0">
+                <!-- 작성자 프로필 -->
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/1200px-Cat03.jpg">
+              </div>
+              <div class="vstack">
+                <div class="d-flex align-items-center">
+                  <div class="hstack gap-2">
+                    <p style="font-size: 18px">{{ comment.username }}</p>
+                    <div id="rating-tag" v-if="comment.rating!=0" class="bg-success">
+                      <i  class="bi bi-hand-thumbs-up-fill"></i>
+                    </div>
+                    <div id="rating-tag" v-if="comment.rating===0" class="bg-warning">
+                      <i class="bi bi-hand-thumbs-down-fill"></i>
+                    </div>
+                  </div>
                 </div>
-                <div class="vstack">
-                  <div class="d-flex align-items-center">
-                    {{ comment.username }}
-                  </div>
-                  <div id="review-date" class="col">
-                    {{ new Date(comment.created_at).toDateString() }}
-                  </div>
+                <div id="review-date" class="col">
+                  {{ new Date(comment.created_at).toDateString() }}
                 </div>
               </div>
             </div>
-            <div class="col">
+
+            <div class="hstack gap-3">
+              <!-- edit -->
+              <div class="col" @click="editReview(comment)">
+                <i class="bi bi-pencil-square"></i>
+              </div>
+              <!-- delete -->
+              <div class="col" @click="deleteReview(comment)">
+                <i class="bi bi-x-lg"></i>
+              </div>
+            <!-- 여기 보고 권한 넣기 -->
+            <!-- <div class="col">
               <i v-show="comment.rating!=0" id="review-btn" class="bi bi-hand-thumbs-up-fill"></i>
               <i v-show="comment.rating===0" id="review-btn" class="bi bi-hand-thumbs-down-fill"></i>
-            </div>
+            </div> -->
             <!-- delete -->
-            <div class="col" v-if="comment.user==userId" @click="deleteReview(comment)">
+            <!-- <div class="col" v-if="comment.user==userId" @click="deleteReview(comment)">
               <i class="bi bi-x-lg"></i>
-            </div>
+            </div> -->
             <!-- edit -->
-            <div class="col" v-if="comment.user==userId" @click="editReview(comment)">
-              <i class="bi bi-pencil-square"></i>
+            <!-- <div class="col" v-if="comment.user==userId" @click="editReview(comment)">
+              <i class="bi bi-pencil-square"></i> -->
+
             </div>
           </div>
           <!-- edit from -->
-          <div id="review-form" class="col d-flex flex-row">
+          <div id="review-form" class="hstack">
+            <!-- create review -->
+            <div id="review-btn" @click="setRating(5)">
+              <i class="bi bi-hand-thumbs-up-fill"></i>
+            </div>
+            <div id="review-btn" @click="setRating(0)">
+              <i class="bi bi-hand-thumbs-down-fill"></i>
+            </div>
+            <input type="text"
+              v-model="reviewInput"
+              class="w-100"
+            >
+            <div id="review-btn" @click="createReview">
+              <i class="bi bi-pencil-fill" style="font-size: 20px;"></i>
+            </div>
+          </div>
+
+          <!-- <div id="review-form" class="col d-flex flex-row">
             <input type="text" style="width: 100%"
               
             >
-          </div>
+          </div> -->
           <div class="row pb-2" style="border-bottom: 1px solid hsla(210,16.7%,97.6%, 0.1);">
             <div class="col">
               {{ comment.id }}
@@ -157,7 +193,6 @@ export default {
     padding: 0;
   }
   #review-form{
-
     input {
       background-color: #212529;
       color: white;
@@ -183,6 +218,22 @@ export default {
         cursor: pointer;
         scale: 103%;
       }
+    }
+  }
+
+  #rating-tag{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    aspect-ratio: 1/1;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 1px solid hsla(210,16.7%,97.6%, 0.1);
+    i{
+      margin-top: 1px;
+      margin-right: 1px;
+      font-size: 13px;
     }
   }
 

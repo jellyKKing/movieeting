@@ -8,10 +8,11 @@
           <router-link id="logo" class="me-auto" :to="{ name: 'Home' }" style="text-decoration:none;">무비팅</router-link>
         </div>
         <!-- right -->
-        <div class="">
+        <div class="d-flex flex-column align-items-center justify-content-center">
           <div class="hstack gap-3">
             <div v-if="!isLogin" class=".loginDiv" >
               <KakaoLogin 
+                style="margin-top: 6px;"
                 ref="loginDiv"
                 api-key="9e3e0da3c4e60e3fff9e0174f6fca7b1"
                 image="kakao_login_btn_small"
@@ -260,6 +261,7 @@ export default {
 #nav {
   padding: 0.5rem 1rem;
   position: sticky;
+  min-height: 59px;
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
   border-bottom: 1px solid hsla(210,16.7%,97.6%, 0.1);

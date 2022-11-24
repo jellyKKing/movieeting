@@ -40,7 +40,7 @@ def detail(request, movie_id):
 
 @api_view(['GET'])
 def popular(request):
-    movie = Movie.objects.order_by('-popularity')[:10]
+    movie = Movie.objects.all().order_by('-popularity')[:10]
     serializer = MovieSerializer(movie, many=True)
     return Response(serializer.data)
 
