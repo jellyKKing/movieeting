@@ -69,9 +69,6 @@ export default {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
-        data:{
-          'pk' : 436270
-        }
       })
         .then((res) => {
           console.log(res.data)

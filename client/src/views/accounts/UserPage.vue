@@ -41,9 +41,6 @@
             </div>
           </div>
         </div>
-        <div class="d-flex flex-column w-100 justify-content-end align-items-end mt-2">
-          <a href="https://kauth.kakao.com/oauth/logout?client_id=19909bfbfb8745d6172a4ab6b541c7e8&logout_redirect_uri=http://localhost:8080/movies" @click="logout">Logout</a>
-        </div>
       </div>
       <!-- right -->
       <div class="col-sm-12 col-md">
@@ -72,37 +69,18 @@ export default {
     return{
       user_like_movies : null,
       user_created_comments : null,
+      username : null,
+      email : null,
+      gender : null,
+      imgUrl : null,
     }
   },
   methods : {
     getTest2 () {
       
-    },
-    logout (){
-      this.$cookies.set("jwt", '')
-      this.$cookies.set("username", '')
-      this.$cookies.set("email", '')
-      this.$cookies.set("imgUrl", '')
-      this.$cookies.set("gender", '')
-      this.isLogin = false
-      this.username = ''
-      this.imgUrl = ''
-      // this.$store.commit('ISLOGIN_CHANGE')
-    },    
+    }
   },
   computed : {
-    username () {
-      return this.$cookies.get("username")
-    },
-    email () {
-      return this.$cookies.get("email")
-    },
-    gender () {
-      return this.$cookies.get("gender")
-    },
-    imgUrl () {
-      return this.$cookies.get("imgUrl")
-    },
   },
   mounted(){
     const token = this.$cookies.get('jwt')
@@ -115,6 +93,10 @@ export default {
       })
         .then((res) => {
           console.log(res.data)
+          this.username = res.data.username
+          this.email = res.data.email
+          this.gender = res.data.gender
+          this.user_like_movies = res.data.user_like_movies
           this.user_like_movies = res.data.user_like_movies
           this.user_created_comments = res.data.user_created_comments
         })

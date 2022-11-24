@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from django.http import JsonResponse  
 from .serializers import UserSerializer
 from .models import User
+from movies.models import Movie, Comment
 import jwt
 import json
 import requests
@@ -63,17 +64,28 @@ def kakaoLoginView(request):
 
 
 
-@api_view(['GET'])
+@api_view(['POST'])
 def mypage(request):
     print('마이페이지in')
     
     if request.user.is_authenticated:
         print('is_authenticated')
-        if request.method == 'GET':
-            user = User.objects.all()
-            serializer = UserSerializer(user, many=True)
-            return Response(serializer.data)
-    else:
-        print('is_authenticated x')
-        return Response(status=status.HTTP_401_UNAUTHORIZED)
+        print()
+
+        # 사용자가 좋아요 누른 영화 목록
+        movies = User.objects.filter(id=request.user.id)[0].like_movies.all().values()
+
+        # 사용자가 작성한 리뷰
+        comments = Comment.objects.filter(user_id=request.user.id).values()
+
+        # 사용자의 팔로워
+        
+        data = {
+            'user_like_movies' : movies,
+            'user_created_comments' : comments,
+        }
+        return Response(data)
+
+    print('is_authenticated x')
+    return Response(status=status.HTTP_401_UNAUTHORIZED)
 
