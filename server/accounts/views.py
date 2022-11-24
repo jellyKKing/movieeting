@@ -44,6 +44,8 @@ def kakaoLoginView(request):
         'username':kakao_response['properties']['nickname'],
         'email':kakao_response['kakao_account']['email'],
         'password':str(kakao_response['id']),
+        'gender':kakao_response['kakao_account']['gender'],
+        'imgUrl':kakao_response['kakao_account']['profile']['profile_image_url'],
     }
     
     serializer = UserSerializer(data=user_data)
@@ -89,3 +91,21 @@ def mypage(request):
     print('is_authenticated x')
     return Response(status=status.HTTP_401_UNAUTHORIZED)
 
+
+@api_view(['POST'])
+def userpage(request, user_id):
+    print('userPage in 💛')
+    print(user_id)
+    user = User.objects.get(id=user_id)
+    serializer = UserSerializer(instance=user)
+
+    # 사용자가 좋아요 누른 영화 목록
+    movies = User.objects.filter(id=user_id)[0].like_movies.all().values()
+
+    # 사용자가 작성한 리뷰
+    comments = Comment.objects.filter(user_id=user_id).values()
+
+    serializer.data['user_like_movies'] = movies
+    serializer.data['user_created_comments'] = comments
+
+    return Response(serializer.data)
