@@ -14,7 +14,12 @@
       </div>
     </div>
     
-    <button @click="selectDone">확인</button>
+    <button class="btn btn-primary rounded-pill mt-3 fw-bold"
+      style="color: white;"
+      @click="selectDone"
+    >
+      확 인
+    </button>
   </div>
 </template>
 
@@ -67,30 +72,11 @@ export default {
 
 <style lang="scss" scoped>
 .container{
-  // position: relative;
   width: 100%;
   max-height: 850px;
   padding: 20px 0px;
   overflow: scroll;
   overflow-x: hidden;
-  // &:before,
-  // &:after {
-  //   display: block;
-  //   position: absolute;
-  //   top: 0; // container에 준 여백값보다 크지 않게 사이즈 지정하기 (swiper-slide의 클릭 이벤트에 영향을 주지 않고, 이렇게 지정해야 그라데이션이 영역 내부에 있는 탭이 스크롤 하기 전엔 영향을 주지 않음)
-  //   height: 30px;
-  //   z-index: 4;
-  //   content: "";
-  // }
-  // &:before {
-  //   top: 0;
-  //   // background: linear-gradient(0deg, #212529 0%, hsla(210, 11%, 15%, 0.2) 10%, hsla(210, 11%, 15%, 0) 15%, hsla(210, 11%, 15%, 0) 85%, hsla(210, 11%, 15%, 0.2) 90%, #212529 100%);
-  //   background: linear-gradient(180deg, #212529 -10%, rgba(33, 37, 41, 0.8) 18.31%, rgba(33, 37, 41, 0) 75%);
-  // }
-  // &:after {
-  //   bottom: 0;
-  //   background: linear-gradient(0deg, red -10%, rgba(33, 37, 41, 0.8) 18.31%, rgba(33, 37, 41, 0) 75%);
-  // }
 }
 
 /* width */

@@ -1,9 +1,13 @@
 <template>
   <div>
-    <div id="keywordTag" class="d-flex flex-row bg-success rounded-pill">
-      <i class="bi bi-tags-fill me-2"></i>
-      <p>{{ keyword.name }}</p>
-      <p>({{ movies.length }})</p>
+    <div class="row">
+      <div id="keywordTag" class="hstack gap-3 rounded-pill bg-success ms-3 me-3 mb-2 mt-1 d-flex align-items-center col-auto pe-3 shadow ">
+        <i class="bi bi-tags-fill ms-3 fs-4"></i>
+        <p class="fw-bold fs-3">{{ keyword.name }}</p>
+        <div class="vr"></div>
+        <p class="opacity-50">{{ movies.length }}편</p>
+      </div>
+      <div class="w-100 col"></div>
     </div>
     <!-- swiper -->
     <swiper ref="filterSwiper" :options="swiperOption" role="tablist">
@@ -85,6 +89,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+* {
+  padding:0;
+  margin: 0;
+}
+
 .swiper-container {
   padding: 0 30px;
   &:before,
