@@ -29,7 +29,7 @@
           </div>
           <!-- 좋아요 -->
           <div class="score likes">
-            <p>좋아요</p>
+            <p style="font-size: 12px; text-align: left; padding-left: 0px; padding-right: 0px">보고싶어요</p>
             <div class="hstack">
               <i id="heart" class="bi bi-heart-fill" style="font-size: 0.8rem;"></i>
               <p>{{ movie.vote_average }}</p>

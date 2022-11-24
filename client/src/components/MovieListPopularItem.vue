@@ -8,6 +8,9 @@
       <div id="like-btn" @click.stop="likeClick">
         <i class="bi bi-heart-fill"></i>
       </div>
+      <div id="rank-btn">
+        <p>{{ index+1 }}</p>
+      </div>      
     </div>
     <div class="poster-text">
       <p class="poster-movie-title">{{ movie.original_title }}</p>
@@ -31,6 +34,7 @@ export default {
     }
   },
   props: {
+    index: Number,
     movie: Object,
   },
   components : {
@@ -79,6 +83,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+*{
+  margin: 0;
+  padding: 0;
+}
 .card-wrapper {
   display: flex;
   flex-direction: column;
@@ -135,60 +143,6 @@ export default {
   line-height: 12px;
   opacity: 50%;
 }
-/* card css */
-
-
-/* .card {
-  display: flex;
-  width: 15rem;
-  height: 20rem;
-  padding: 0;
-  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.1);
-  border-radius: 8px;
-  border-color: none;
-  box-sizing: border-box;
-  overflow: hidden;
-  background-color: #252422;
-  color: #F1FAEE;
-  border-radius: 0px;
-}
-
-.card * {
-  transition: 0.3s ease all;
-}
-
-.card img {
-  margin: 0;
-  max-height: 20rem;
-  object-fit: cover;
-  display: block;
-}
-
-.card h3 {
-  margin: 0;
-  padding: 12px 12px 48px;
-  line-height: 32px;
-  font-weight: bold;
-}
-
-.card .focus-content {
-  display: block;
-  padding: 8px 12px;
-}
-
-.card p {
-  text-align: left;
-  margin: 0;
-  line-height: 1.5;
-}
-
-.card:hover img, .card:focus-within img {
-  margin-top: -20rem;
-}
-
-.card:hover h3, .card:focus-within h3 {
-  padding: 8px 12px 0;
-} */
 
 #like-btn {
   display: flex;
@@ -213,6 +167,25 @@ export default {
       transform-origin: center;
       animation: jump .75s linear alternate infinite;
     }
+  }
+}
+
+#rank-btn{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  background: hsla(210,16.7%,14.5%, 0.5);
+  border-top-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border: 0px 1px 0px 1px solid hsla(210,16.7%,97.6%, 0.1);
+  // box-shadow: inset 2px 2px 2px #212529;
+  p{
+    font-weight: bolder;
+    margin: 0;
   }
 }
 </style>

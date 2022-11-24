@@ -1,17 +1,14 @@
 <template>
   <div id="app" class="position-relative">
     <!-- nav bar -->
-    <div id="nav" class="sticky-top">
-      <div class="row">
+    <div id="nav" class="sticky-top d-flex flex-column align-items-center" style="min-width: 310px">
+      <div class="d-flex justify-content-between" style="width: 80%">
         <!-- left -->
-        <div class="col-1" style="text-align: left;">
-          <router-link class="me-auto" :to="{ name: 'Home' }" style="text-decoration:none;">Home</router-link>
-        </div>
-        <!-- center -->
-        <div class="col-8">
+        <div class="" style="text-align: left; height: 40px; margin: -3px;">
+          <router-link id="logo" class="me-auto" :to="{ name: 'Home' }" style="text-decoration:none;">무비팅</router-link>
         </div>
         <!-- right -->
-        <div class="col-3">
+        <div class="">
           <div class="hstack gap-3">
             <div v-if="!isLogin" class=".loginDiv" >
               <KakaoLogin 
@@ -23,20 +20,23 @@
                 />
             </div>
             <div v-if="isLogin">
-              <div class="vr"></div>
-              
-              <div class="vr"></div>
-              <img :src="imgUrl" alt="" width="40px;">
-              <router-link :to="{ name: 'MyPage' }" style="text-decoration:none;">{{ username }}님</router-link> 
-
-              <a href="https://kauth.kakao.com/oauth/logout?client_id=19909bfbfb8745d6172a4ab6b541c7e8&logout_redirect_uri=http://localhost:8080/movies" @click="logout">Logout</a>
+              <div class="hstack gap-2">
+                <div class="d-flex align-items-center" id="profile_thumb">
+                  <img :src="imgUrl" alt="profile_thumb" width="40px;">
+                </div>
+                <router-link :to="{ name: 'MyPage' }" style="text-decoration:none;">{{ username }}님</router-link> 
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
     <!-- header bg -->
-    <div id="header-overlay"></div>
+    <div id="header-overlay" class="d-flex justify-content-center">
+      <HomeHeader
+        v-show="showBanner"
+      />
+    </div>
     <div id="header-bg"></div>
     <!-- router-view -->
     <div style="position: relative; min-height: 100%; padding-bottom: 100px">
@@ -46,12 +46,8 @@
         </div>
       </div>
       
-      <!-- <modals-container /> -->
-      <div v-if="modalShow">
-        해당 기능은 로그인이 필요합니다. 로그인하시겠습니까?
-        <button @click="modalClose">close</button>
-        <button @click="modalLogin">login</button>
-      </div>
+      <!-- modals-container -->
+      <LoginModal @close-modal="modalClose" v-show="modalShow"/>
 
       <!-- footer -->
       <footer>
@@ -81,7 +77,8 @@
 </template>
 
 <script>
-// import LoginModal from '@/components/LoginModal'
+import LoginModal from '@/components/LoginModal'
+import HomeHeader from '@/components/HomeHeader'
 import KakaoLogin from 'vue-kakao-login'
 import axios from 'axios'
 const API_URL = 'http://127.0.0.1:8000'
@@ -94,11 +91,13 @@ export default {
       isLogin : false,
       username : '',
       imgUrl : '',
+      showBanner : true,
     }
   },
   components: {
     KakaoLogin,
-    // LoginModal
+    HomeHeader,
+    LoginModal
   },
   methods: {
     modalClose(){
@@ -174,17 +173,17 @@ export default {
           })
         })
     },
-    logout (){
-      this.$cookies.set("jwt", '')
-      this.$cookies.set("username", '')
-      this.$cookies.set("email", '')
-      this.$cookies.set("imgUrl", '')
-      this.$cookies.set("gender", '')
-      this.isLogin = false
-      this.username = ''
-      this.imgUrl = ''
-      // this.$store.commit('ISLOGIN_CHANGE')
-    }
+    // logout (){
+    //   this.$cookies.set("jwt", '')
+    //   this.$cookies.set("username", '')
+    //   this.$cookies.set("email", '')
+    //   this.$cookies.set("imgUrl", '')
+    //   this.$cookies.set("gender", '')
+    //   this.isLogin = false
+    //   this.username = ''
+    //   this.imgUrl = ''
+    //   // this.$store.commit('ISLOGIN_CHANGE')
+    // }
   },
   computed : {
 
@@ -192,10 +191,18 @@ export default {
   updated() {
     const headerOverlay = document.getElementById('header-overlay')
     console.log(this.$route.name)
+    // header height adjust
     if (this.$route.name === 'SurveyWelcome') {
-      headerOverlay.setAttribute('style', 'margin-bottom: 100px')
+      headerOverlay.setAttribute('style', 'height: 100px')
     } else {
-      headerOverlay.setAttribute('style', 'margin-bottom: 350px')
+      headerOverlay.setAttribute('style', 'height: 350px')
+    }
+    // show header banner
+    if (this.$route.name === 'Home') {
+      headerOverlay.setAttribute('style', 'margin-bottom: 0px')
+      this.showBanner = true
+    } else {
+      this.showBanner = false
     }
   },
   mounted () {
@@ -215,13 +222,20 @@ export default {
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'PyeongChangPeace-Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2206-02@1.0/PyeongChangPeace-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+}
+
 *{
   margin: 0;
   padding: 0;
 }
 
 #app {
-  font-family: IBMPlexSansKR-Regular, Helvetica, Arial, sans-serif;
+  font-family: IBMPlexSansKR-Regular, Helvetica, Arial, sans-serif, PyeongChangPeace-Bold;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -230,8 +244,15 @@ export default {
   /* overflow: hidden; */
 }
 
+#logo {
+  font-family: PyeongChangPeace-Bold;
+  font-weight: normal;
+  font-size: 35px;
+  margin: 0px;
+}
+
 #nav {
-  padding: 1rem;
+  padding: 0.5rem 1rem;
   position: sticky;
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
@@ -239,7 +260,7 @@ export default {
 }
 
 #nav a {
-  font-weight: bold;
+  // font-weight: bold;
   color: #FFFFFF;
 }
 
@@ -287,7 +308,8 @@ h1 {
 
 #header-overlay{
   position: relative;
-  margin-bottom: 350px
+  // margin-bottom: 350px;
+  height: 350px;
 }
 
 #body {
@@ -320,4 +342,12 @@ footer{
   width: 100%;
   height: 100px;
 }
+
+#profile_thumb {
+  overflow: hidden;
+  border-radius: 50%;
+  border: 1px solid hsla(210,16.7%,97.6%, 0.1);
+}
+
+
 </style>
