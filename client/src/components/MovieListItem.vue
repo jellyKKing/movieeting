@@ -69,8 +69,6 @@ export default {
     modalGoToLogin () {
 
     },
-    test() {
-    }
   },
   computed : {
     isLogin () {

@@ -7,6 +7,7 @@ from .serializers import MovieSerializer, KeywordSerializer, CommentSerializer
 from .models import Movie, Keyword, Comment
 import csv
 import pandas as pd
+import datetime
 import json
 import os
 from sklearn.feature_extraction.text import CountVectorizer
@@ -49,7 +50,8 @@ MOVIE = Movie.objects.all()
 def random(request):
     movie = MOVIE.order_by('?')[:31]
     serializer = MovieSerializer(movie, many=True)
-    return Response(serializer.data)    
+
+    return Response(serializer.data)
 
 @api_view(['GET'])
 def keyword(request, keyword_id):
@@ -112,65 +114,159 @@ def comment_create(request, movie_id):
         serializer.save(movie=movie, user=user)    # commit=False 대신에 외래키를 받기 위해서 article을 인자로 넣어준다.
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-@api_view(['GET'])
+@api_view(['POST'])
 def test(request):
-    movies_json_to_csv()
-    movies_similarity_genre_set()
-    print('💛💛💛💛💛💛💛💛')
-    print(request)
-    print('💛💛💛💛💛💛💛💛')
-    
+    print('꿱!!!!!!!!!!!!!!')
+    comment = Comment.objects.filter(user_id=request.user.id).filter(rating=5).order_by('-created_at')
 
-def movies_similarity_genre_set():
+    movie_id_lst = []
+    for x in comment:
+        print(x.movie_id)
+        movie_id_lst.append(x.movie_id)
+
+    movie_id_lst = list(set(movie_id_lst))
+    movies = Movie.objects.filter(id__in=movie_id_lst)
+    
+    dt_now = datetime.datetime.now()
+    user_row = [1050000, '1050000', '1050000', str(dt_now.date()), 1050000, 1050000, '1050000', '1050000', '1050000']
+    genres = []
+    keywords = []
+    
+    for x in movies:
+        for y in x.genres.all().values():
+            genres.append(y['id'])
+        for p in x.keywords.all().values():
+            keywords.append(p['id'])
+
+    genres = list(set(genres))
+    keywords = list(set(keywords))
+    user_row.append(genres)
+    user_row.append(keywords)
+    user_row.append([])
+    user_row.append([])
+    user_row.append(1050000)
+    user_row.append('1050000')
+    print(user_row)
+    
+    
+    print('eljkdjslfjkdsjflkeowifjiqioejㅁㅇ니러ㅏ미;ㄷ ㅓㅣ', len(movie_id_lst))
+    print(comment.values())
+    # csv 로 만들 때 user 가 좋아한 장르들 다 가져와서 csv에 열 하나 추가하는 거야.
+    # 어떻게 하냐면 가장 최근에 5점을 준 10개의 영화를 가져와서
+    # csv 에 열 하나 추가
+    # 그리고 그 인덱스를 0 으로 고정 시키고 그거를 target_index 삼기
+    movies_json_to_csv(user_row)
+    # target_id = request.data.id
+    # print(target_id)
+    print('💛💛💛💛💛💛💛💛')
+    result = movies_similarity_genre_set()
+    print('남는 컴퓨터에!!!', result)
+    print(movie_id_lst)
+
+    movie = Movie.objects.filter(id__in=result)
+    serializer = MovieSerializer(movie, many=True)
+
+    return Response(serializer.data)
+
+
+
+def movies_similarity_genre_set(top=30):
     csv_url = os.getcwd() + "\movies\\fixtures\movies.csv"
     df = pd.read_csv(csv_url, encoding='utf-8')
 
+    target_movie_index = 0
+
     counter_vector = CountVectorizer(ngram_range=(1,3))
+    # c_vector_genres = counter_vector.fit_transform(df['genres']+df['keywords'])
     c_vector_genres = counter_vector.fit_transform(df['genres'])
+    c_vector_keywords = counter_vector.fit_transform(df['keywords'])
     print('💖💖💖💖')
     print(c_vector_genres.shape)
     print('💖💖💖💖')
 
     similarity_genre = cosine_similarity(c_vector_genres, c_vector_genres).argsort()[:, ::-1]
+    similarity_keyword = cosine_similarity(c_vector_keywords, c_vector_keywords).argsort()[:, ::-1]
     print(similarity_genre.shape)
+    print(similarity_genre)
     print('💖💖💖💖')
 
+    sim_index = similarity_genre[target_movie_index, :top].reshape(-1)
+    sim_index2 = similarity_keyword[target_movie_index, :top].reshape(-1)
+    print(sim_index)
+    print(type(sim_index))
 
-def movies_json_to_csv():
+    sim_index = sim_index.tolist()
+    sim_index2 = sim_index2.tolist()
+
+    # if target_movie_index in sim_index:
+    sim_index.remove(0)
+    sim_index2.remove(0)
+
+    # if target_movie_index in sim_index2:
+    #     sim_index2.remove(target_movie_index)
+
+    print(sim_index)
+    # result = df.iloc[sim_index].sort_values('score', ascending=False)[:10]
+    result = df.iloc[sim_index].sort_values('vote_average', ascending=False)[:10]['id'].tolist()
+    result2 = df.iloc[sim_index2].sort_values('vote_average', ascending=False)[:10]['id'].tolist()
+    return result + result2
+
+
+def movies_json_to_csv(user_row):
     json_url = os.getcwd() + "\movies\\fixtures\movies.json"
-    df = pd.read_json(json_url, encoding='utf-8')
-    csv_url = os.getcwd() + "\movies\\fixtures\movies.csv"
-    # field names  
-    fields = ['title', 'original_title', 'release_date', 'vote_average', 'popularity', 'overview', 'backdrop_path', 'poster_path', 'genres', 'keywords', 'actors', 'directors', 'vote_average_naver', 'link_naver']  
-        
-    # data rows of csv file  
-    rows = []
-    print(len(df['fields']))
-    for i in range(1000):
-        data = []
-        data.append(df['fields'][i]['title']) #
-        data.append(df['fields'][i]['original_title']) #
-        data.append(df['fields'][i]['release_date']) #
-        data.append(df['fields'][i]['vote_average']) #
-        data.append(df['fields'][i]['popularity'])
-        data.append(df['fields'][i]['overview']) #
-        data.append(df['fields'][i]['backdrop_path']) #
-        data.append(df['fields'][i]['poster_path']) #
-        data.append(df['fields'][i]['genres']) 
-        data.append(df['fields'][i]['keywords']) #
-        data.append(df['fields'][i]['actors'])
-        data.append(df['fields'][i]['directors'])
-        if df['fields'][i].get('vote_average_naver', False):
-            data.append(df['fields'][i]['vote_average_naver'])
-            data.append(df['fields'][i]['link_naver'])
-        rows.append(data)
+    
+    with open(json_url, 'r', encoding="utf-8-sig") as file:
+        df = json.load(file)
+        print('안뛰뛰뒤뚜띠ㅜ디aaaaaaaaaaaaaaa')
+        print(type(df))
+        print(df[0])
+        print()
 
-    with open(csv_url, 'w', newline='', encoding="utf-8-sig") as f: 
-        # using csv.writer method from CSV package 
-        write = csv.writer(f) 
+        csv_url = os.getcwd() + "\movies\\fixtures\movies.csv"
+        # field names  
+        fields = ['id', 'title', 'original_title', 'release_date', 'vote_average', 'popularity', 'overview', 'backdrop_path', 'poster_path', 'genres', 'keywords', 'actors', 'directors', 'vote_average_naver', 'link_naver']  
         
-        write.writerow(fields) 
-        write.writerows(rows)
+        # 평점 불공정 처리 필요
+        # m = df['vote_average'].quantile(0.9)
+        # print('mmmmmmmm', m)
+        # print()
 
-def survey():
-    pass
+        # df = df.loc[df['vote_average'] >= m]
+        # c = df['vote_average'].mean()
+
+        # data rows of csv file  
+        rows = [user_row]
+
+        for i in range(1000):
+            data = []
+
+            # 평점 전처리
+            # m = df[i]['fields']['vote_average']
+            # data
+            data.append(df[i]['pk'])
+            data.append(df[i]['fields']['title']) #
+            data.append(df[i]['fields']['original_title']) #
+            data.append(df[i]['fields']['release_date']) #
+            data.append(df[i]['fields']['vote_average']) #
+            data.append(df[i]['fields']['popularity'])
+            data.append(df[i]['fields']['overview']) #
+            data.append(df[i]['fields']['backdrop_path']) #
+            data.append(df[i]['fields']['poster_path']) #
+            data.append(df[i]['fields']['genres']) 
+            data.append(df[i]['fields']['keywords']) #
+            data.append(df[i]['fields']['actors'])
+            data.append(df[i]['fields']['directors'])
+            if df[i]['fields'].get('vote_average_naver', False):
+                data.append(df[i]['fields']['vote_average_naver'])
+                data.append(df[i]['fields']['link_naver'])
+            rows.append(data)
+
+        with open(csv_url, 'w', newline='', encoding="utf-8-sig") as f: 
+            # using csv.writer method from CSV package 
+            write = csv.writer(f) 
+            
+            write.writerow(fields)
+            write.writerows(rows)
+
+# def survey():
+#     pass

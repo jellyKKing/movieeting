@@ -12,9 +12,6 @@ from django.shortcuts import get_object_or_404
 
 @api_view(['POST'])
 def kakaoLoginView(request):
-    print('겟')
-    print()
-    print()
     access_token = request.data['res']['access_token']
     url = 'https://kapi.kakao.com/v2/user/me'    
     headers = {
@@ -24,27 +21,17 @@ def kakaoLoginView(request):
 
     kakao_response = requests.get(url, headers=headers)
     kakao_response = json.loads(kakao_response.text)
-    print(kakao_response)
 
-    print('호잇')
     # kakao_id 로 검색해보고, 
     user = User.objects.filter(id=kakao_response['id'])
-    print('됨')
-    print(user.values())
-    print()
     if user:
         # 있으면 로그인 진행
-        print('있음 -> 로그인 진행')
         serializer = UserSerializer(instance=user[0])
         data = {
             'serializer' : serializer.data,
             'access' : access_token
         }
         res = Response(data, status=status.HTTP_200_OK)
-        # print('res', res)
-        # res.set_cookie(key='jwt', value=access_token, httponly=False)
-        # res.set_cookie('access', access_token)
-        # res.set_cookie('refresh', request.data['res']['refresh_token'])
         return res
 
 
@@ -61,7 +48,6 @@ def kakaoLoginView(request):
     serializer = UserSerializer(data=user_data)
 
     if serializer.is_valid(raise_exception=True):
-        print('들어옴')
         users = serializer.save()
         password = str(kakao_response['id'])
         users.set_password(password)

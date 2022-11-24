@@ -23,11 +23,6 @@ const routes = [
     component: Home,
   },
   {
-    path: '/movies/:movie_id',
-    name: 'MovieDetail',
-    component: MovieDetail,
-  },
-  {
     path: '/movies/keyword/:keyword_id',
     name: 'KeywordDetail',
     // component: KeywordDetail,
@@ -47,6 +42,11 @@ const routes = [
     path: '/movies/survey',
     name: 'SurveyWelcome',
     component: SurveyWelcome,
+  },
+  {
+    path: '/movies/:movie_id',
+    name: 'MovieDetail',
+    component: MovieDetail,
   },
 ]
 
