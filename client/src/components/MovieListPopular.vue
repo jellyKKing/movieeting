@@ -1,7 +1,7 @@
 <template>
   <div>
     <div id="title" class="d-flex">
-      <h1><i class="bi bi-award-fill text-primary"></i> Top 10 인기영화</h1>
+      <h3><i class="bi bi-award-fill text-primary"></i> Top 10 인기영화</h3>
     </div>
     <swiper ref="filterSwiper" :options="swiperOption" role="tablist">
       <swiper-slide role="tab" v-for="(movie, index) in movies" :key=movie.id >
